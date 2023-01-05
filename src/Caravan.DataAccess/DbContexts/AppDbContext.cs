@@ -1,4 +1,5 @@
-﻿using Caravan.Domain.Entities;
+﻿using Caravan.DataAccess.Configurations;
+using Caravan.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,5 +22,10 @@ namespace Caravan.DataAccess.DbContexts
         public virtual DbSet<Order> Orders { get; set; } = default!;
         public virtual DbSet<Location> Locations { get; set; } = default!;
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new AdminConfiguration());
+        }
     }
 }

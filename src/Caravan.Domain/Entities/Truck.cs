@@ -11,13 +11,13 @@ namespace Caravan.Domain.Entities
     {
         public string Name { get; set; } = string.Empty;
 
-        public string ImagePath { get; set; } = string.Empty;
+        public string? ImagePath { get; set; }
 
-        public double MaxLoad { get; set; }
+        public double? MaxLoad { get; set; }
 
         public bool IsEmpty { get; set; } = true;
 
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
 
         public string TruckNumber { get; set; } = string.Empty;
 
