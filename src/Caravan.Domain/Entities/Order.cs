@@ -11,11 +11,11 @@ namespace Caravan.Domain.Entities
     {
         public string Name { get; set; } = string.Empty;
 
-        public string ImagePath { get; set; } = string.Empty;
+        public string? ImagePath { get; set; }
 
         public double Weight { get; set; }
 
-        public double Size { get; set; }
+        public double? Size { get; set; }
 
         public bool IsTaken { get; set; } = false;
 
