@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Caravan.Service", "src\Cara
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Caravan.UnitTest", "test\Caravan.UnitTest\Caravan.UnitTest.csproj", "{152D44F4-5087-4524-90C3-5EEBF8E9F7B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caravan.IntegrationTest", "Caravan.IntegrationTest\Caravan.IntegrationTest.csproj", "{14D29E3B-DAD4-4F48-842E-7B3285A0C813}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Caravan.IntegrationTest", "test\Caravan.IntegrationTest\Caravan.IntegrationTest.csproj", "{6CD6ABEA-04C8-4FD5-BF4D-80FA41DB42C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +45,10 @@ Global
 		{152D44F4-5087-4524-90C3-5EEBF8E9F7B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{152D44F4-5087-4524-90C3-5EEBF8E9F7B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{152D44F4-5087-4524-90C3-5EEBF8E9F7B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14D29E3B-DAD4-4F48-842E-7B3285A0C813}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14D29E3B-DAD4-4F48-842E-7B3285A0C813}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14D29E3B-DAD4-4F48-842E-7B3285A0C813}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14D29E3B-DAD4-4F48-842E-7B3285A0C813}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CD6ABEA-04C8-4FD5-BF4D-80FA41DB42C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CD6ABEA-04C8-4FD5-BF4D-80FA41DB42C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CD6ABEA-04C8-4FD5-BF4D-80FA41DB42C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CD6ABEA-04C8-4FD5-BF4D-80FA41DB42C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,7 +59,7 @@ Global
 		{E33527C4-50F0-426C-8823-8FC3398EC728} = {A0967FE7-3C7A-4DAE-9E44-DDFA1D19733C}
 		{D48267FA-57B4-470A-90B5-E09978400912} = {A0967FE7-3C7A-4DAE-9E44-DDFA1D19733C}
 		{152D44F4-5087-4524-90C3-5EEBF8E9F7B4} = {4314ACC3-378D-4C81-80A4-3D1454FBF67E}
-		{14D29E3B-DAD4-4F48-842E-7B3285A0C813} = {4314ACC3-378D-4C81-80A4-3D1454FBF67E}
+		{6CD6ABEA-04C8-4FD5-BF4D-80FA41DB42C7} = {4314ACC3-378D-4C81-80A4-3D1454FBF67E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0D59D04-B662-4D71-8061-A7CDC2CE8B28}
