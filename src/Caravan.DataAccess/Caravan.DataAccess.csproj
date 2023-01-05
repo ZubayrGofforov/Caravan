@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="Configurations\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
 
