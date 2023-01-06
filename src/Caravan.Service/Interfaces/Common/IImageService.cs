@@ -2,7 +2,7 @@
 
 namespace Caravan.Service.Interfaces.Common;
 
-public interface IImageInterface
+public interface IImageService
 {
     public Task<string> SaveImageAsync(IFormFile file);
 }

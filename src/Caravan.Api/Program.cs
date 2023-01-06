@@ -1,4 +1,10 @@
 using Caravan.Api.Controllers.LayerConfigurations;
+using Caravan.Service.Common.Security;
+using Caravan.Service.Interfaces;
+using Caravan.Service.Interfaces.Common;
+using Caravan.Service.Interfaces.Security;
+using Caravan.Service.Services;
+using Caravan.Service.Services.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +12,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IAuthManager, AuthManager>();
+
+
 builder.ConfigureDataAccess();
 
 

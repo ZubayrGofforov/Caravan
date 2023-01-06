@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Caravan.Service.Services.Common
 {
-    public class ImageService : IImageInterface
+    public class ImageService : IImageService
     {
         private readonly string images = "Images";
         private readonly string rootPath ;
