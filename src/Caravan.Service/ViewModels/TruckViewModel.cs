@@ -20,10 +20,7 @@ namespace Caravan.Service.ViewModels
         public string? Description { get; set; }
 
         public string TruckNumber { get; set; } = string.Empty;
+        
         public UserViewModel User { get; set; } = default!;
-
-
-
-
     }
 }
