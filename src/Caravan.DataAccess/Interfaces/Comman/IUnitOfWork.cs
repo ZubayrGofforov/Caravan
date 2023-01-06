@@ -8,6 +8,14 @@ namespace Caravan.DataAccess.Interfaces.Comman
 {
     public interface IUnitOfWork
     {
+        public IAdministratorRepository Administrators { get; }
 
+        public IOrderRepository Orders { get; }
+
+        public ITruckRepository Trucks { get; }
+
+        public IUserRepository Users { get; }
+
+        public Task<int> SaveChangesAsync();
     }
 }
