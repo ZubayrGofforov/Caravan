@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,6 +17,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Caravan.DataAccess\Caravan.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\Attributes\" />
+    <Folder Include="Common\Exceptions\" />
+    <Folder Include="Common\Helpers\" />
+    <Folder Include="Common\Validations\" />
+    <Folder Include="Dtos\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
