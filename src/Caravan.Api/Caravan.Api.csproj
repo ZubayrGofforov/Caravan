@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\requests\requests.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.12">
       <PrivateAssets>all</PrivateAssets>
@@ -23,6 +27,10 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\requests\Requests.txt" />
   </ItemGroup>
 
 </Project>
