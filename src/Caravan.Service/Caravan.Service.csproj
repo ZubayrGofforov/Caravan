@@ -29,7 +29,6 @@
   <ItemGroup>
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Validations\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>
