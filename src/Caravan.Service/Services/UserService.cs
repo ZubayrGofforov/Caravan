@@ -4,6 +4,7 @@ using Caravan.DataAccess.Interfaces.Common;
 using Caravan.Domain.Entities;
 using Caravan.Service.Common.Exceptions;
 using Caravan.Service.Common.Utils;
+using Caravan.Service.Dtos.Accounts;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
 using Caravan.Service.ViewModels;
@@ -55,7 +56,7 @@ namespace Caravan.Service.Services
 
         }
 
-        public async Task<bool> UpdateAsync(long id, UserViewModel entity)
+        public async Task<bool> UpdateAsync(long id, AccountRegisterDto entity)
         {
             var temp = await  unitOfWork.Users.FindByIdAsync(id);
             if (temp is not null)

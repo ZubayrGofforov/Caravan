@@ -1,5 +1,6 @@
 ﻿using Caravan.Domain.Entities;
 using Caravan.Service.Common.Utils;
+using Caravan.Service.Dtos.Accounts;
 using Caravan.Service.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Caravan.Service.Interfaces
     {
         public Task<IEnumerable<UserViewModel>> GetAllAysnc(PaginationParams @params);
         public Task<User> GetAsync(long id);
-        public Task<bool> UpdateAsync(long id, UserViewModel entity);
+        public Task<bool> UpdateAsync(long id, AccountRegisterDto entity);
         public Task<bool> DeleteAsync(long id);
     }
 }
