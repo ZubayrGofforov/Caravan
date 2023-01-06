@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Caravan.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/trucks")]
     [ApiController]
     public class TruckController : ControllerBase
     {
