@@ -12,7 +12,7 @@ namespace Caravan.Service.Interfaces
 {
     public interface IUserService
     {
-        public Task<IEnumerable<UserViewModel>> GetAllAysnc(PaginationParams @params);
+        ////public Task<IEnumerable<UserViewModel>> GetAllAysnc(PaginationParams @params);
         public Task<User> GetAsync(long id);
         public Task<bool> UpdateAsync(long id, AccountRegisterDto entity);
         public Task<bool> DeleteAsync(long id);

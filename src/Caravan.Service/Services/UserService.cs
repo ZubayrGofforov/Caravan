@@ -41,11 +41,11 @@ namespace Caravan.Service.Services
             else throw new StatusCodeException(System.Net.HttpStatusCode.NotFound, "User not found");
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetAllAysnc(PaginationParams @params)
-        {
-            var users = await unitOfWork.Users.GetAll().ToListAsync();
-            return (IEnumerable<UserViewModel>)mapper.Map<UserViewModel>(users);
-        }
+        //public async Task<IEnumerable<UserViewModel>> GetAllAysnc(PaginationParams @params)
+        //{
+        //    var users = await unitOfWork.Users.GetAll().ToListAsync();
+        //    return (IEnumerable<UserViewModel>)mapper.Map<UserViewModel>(users);
+        //}
 
         public async Task<User> GetAsync(long id)
         {
