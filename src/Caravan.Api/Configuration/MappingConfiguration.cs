@@ -12,6 +12,7 @@ namespace Caravan.Api.Configuration
             CreateMap<TruckCreateDto, Truck>().ReverseMap();
             CreateMap<OrderCreateDto, Order>().ReverseMap();
             CreateMap<UserViewModel,User>().ReverseMap();
+            CreateMap<OrderViewModel,Order>().ReverseMap();
         }
     }
 }

@@ -8,6 +8,7 @@ using Caravan.Service.Common.Helpers;
 using Caravan.Service.Dtos;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
+using Caravan.Service.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace Caravan.Service.Services
 
             var order = _mapper.Map<Order>(createDto);
             order.CreatedAt = TimeHelper.GetCurrentServerTime();
+            order.ImagePath = await _imageService.SaveImageAsync(createDto.Image!);
 
             _unitOfWork.Orders.Add(order);
             var result = await _unitOfWork.SaveChangesAsync();
@@ -60,22 +62,39 @@ namespace Caravan.Service.Services
             throw new NotImplementedException();
         }
 
-        public Task<Order> GetAsync(long id)
+
+        public async Task<OrderViewModel> GetAsync(long id)
         {
-            throw new NotImplementedException();
+            var order = await _unitOfWork.Orders.FindByIdAsync(id);
+            if (order is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
+
+            var user = await _unitOfWork.Users.FindByIdAsync(order.UserId);
+            if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
+
+            var orderView = _mapper.Map<OrderViewModel>(order);
+
+            orderView.User = _mapper.Map<UserViewModel>(user);
+
+            return orderView;
         }
 
-        //public async Task<Order> GetAsync(long id)
-        //{
-        //    var order = await _unitOfWork.Orders.FindByIdAsync(id);
-        //    if (order is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
-
-
-        //}
-
-        public Task<bool> UpdateAsync(OrderCreateDto updateDto)
+        public async Task<bool> UpdateAsync(long id, OrderCreateDto updateDto)
         {
-            throw new NotImplementedException();
+            var order = await _unitOfWork.Orders.FindByIdAsync(id);
+            if (order is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
+
+            var updateOrder = _mapper.Map<Order>(updateDto);
+
+            if(updateDto.Image is not null)
+            {
+                await _imageService.DeleteImageAsync(order.ImagePath!);
+                updateOrder.ImagePath = await _imageService.SaveImageAsync(updateDto.Image);
+            }
+            updateOrder.Id = id;
+
+            _unitOfWork.Orders.Update(id, updateOrder);
+            var result = await _unitOfWork.SaveChangesAsync();
+            return result > 0;
         }
     }
 }

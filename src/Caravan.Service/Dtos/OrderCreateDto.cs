@@ -1,5 +1,6 @@
 ﻿using Caravan.Domain.Entities;
 using Caravan.Service.Common.Attributes;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,7 +16,7 @@ namespace Caravan.Service.Dtos
         [MaxLength(50), MinLength(3)]
         public string Name { get; set; } = string.Empty;
 
-        public string? ImagePath { get; set; }
+        public IFormFile? Image { get; set; }
 
         [Required]
         [CheckNumber]
@@ -25,5 +26,8 @@ namespace Caravan.Service.Dtos
 
         [Required]
         public bool IsTaken { get; set; } = false;
+
+        [Required]
+        public long UserId { get; set; }
     }
 }
