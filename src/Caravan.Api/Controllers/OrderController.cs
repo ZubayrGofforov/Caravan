@@ -21,7 +21,7 @@ namespace Caravan.Api.Controllers
             => Ok(await _service.GetAsync(id));
         public async Task<IActionResult> DeleteAsync(long id)
             => Ok( await _service.DeleteAsync(id));
-        public async  UpdateAsync(long id, [FromForm] OrderCreateDto dto)
+        public async Task<IActionResult> UpdateAsync(long id, [FromForm] OrderCreateDto dto)
             => Ok(await _service.UpdateAsync(id,dto));
     }
 }
