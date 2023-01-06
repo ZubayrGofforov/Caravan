@@ -1,5 +1,7 @@
-﻿using Caravan.Service.Dtos.Accounts;
+﻿using Caravan.DataAccess.DbContexts;
+using Caravan.Service.Dtos.Accounts;
 using Caravan.Service.Interfaces;
+using Caravan.Service.Interfaces.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,8 @@ namespace Caravan.Service.Services
 {
     public class AccountService : IAccountService
     {
+        private readonly AppDbContext _repository;
+        private readonly IAuthManager _authManager;
         public Task<bool> LoginAsync(AccountLoginDto loginDto)
         {
             throw new NotImplementedException();
