@@ -16,5 +16,6 @@ namespace Caravan.Service.Common.Exceptions
         {
             StatusCode = statusCode;
         }
+
     }
 }

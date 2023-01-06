@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -20,10 +20,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Caravan.DataAccess\Caravan.DataAccess.csproj" />
   </ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
 
   <ItemGroup>
     <Folder Include="Common\Exceptions\" />
-    <Folder Include="Common\Helpers\" />
     <Folder Include="Common\Validations\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
