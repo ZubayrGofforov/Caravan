@@ -1,7 +1,7 @@
 ﻿using Caravan.DataAccess.DbContexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace Caravan.Api.Controllers.LayerConfigurations
+namespace Caravan.Api.Configuration.LayerConfigurations
 {
     public static class DataAccessConfiguration
     {

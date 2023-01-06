@@ -1,4 +1,4 @@
-using Caravan.Api.Controllers.LayerConfigurations;
+using Caravan.Api.Configuration.LayerConfigurations;
 using Caravan.Service.Common.Security;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
