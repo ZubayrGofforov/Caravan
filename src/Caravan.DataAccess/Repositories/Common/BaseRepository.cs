@@ -1,6 +1,6 @@
 ﻿using Caravan.DataAccess.DbContexts;
-using Caravan.DataAccess.Interfaces.Comman;
-using Caravan.Domain.Comman;
+using Caravan.DataAccess.Interfaces.Common;
+using Caravan.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Caravan.DataAccess.Repositories.Comman
+namespace Caravan.DataAccess.Repositories.Common
 {
     public class BaseRepository<T> : IRepository<T> where T : BaseEntity
     {

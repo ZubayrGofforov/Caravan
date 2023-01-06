@@ -1,4 +1,4 @@
-﻿using Caravan.DataAccess.Interfaces.Comman;
+﻿using Caravan.DataAccess.Interfaces.Common;
 using Caravan.Domain.Entities;
 using System;
 using System.Collections.Generic;

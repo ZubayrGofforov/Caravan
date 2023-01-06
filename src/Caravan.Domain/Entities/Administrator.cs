@@ -1,4 +1,4 @@
-﻿using Caravan.Domain.Comman;
+﻿using Caravan.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
