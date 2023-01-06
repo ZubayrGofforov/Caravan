@@ -27,13 +27,13 @@ namespace Caravan.Service.Services
             this.imageService = imageService;
         }
        
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(long id)
         {
             var temp = await unitOfWork.Users.FindByIdAsync(id);
             if(temp is not null)
             {
-                dbContext.Users.Remove(temp);
-                var res = await dbContext.SaveChangesAsync();
+                unitOfWork.Users.Delete(id);
+                var res = await unitOfWork.SaveChangesAsync();
                 return res > 0;
             }
             else throw new StatusCodeException(System.Net.HttpStatusCode.NotFound, "User not found");
@@ -41,11 +41,11 @@ namespace Caravan.Service.Services
 
         public async Task<IEnumerable<UserViewModel>> GetAllAysnc()
         {
-            var users = await  dbContext.Users.AsNoTracking().ToListAsync();
+            var users = await  unitOfWork.Users.GetAll().ToListAsync();
             return (IEnumerable<UserViewModel>)mapper.Map<UserViewModel>(users);
         }
 
-        public async Task<User> GetAsync(int id)
+        public async Task<User> GetAsync(long id)
         {
             var temp = await unitOfWork.Users.FindByIdAsync(id);
             if (temp is not null)
@@ -54,13 +54,12 @@ namespace Caravan.Service.Services
 
         }
 
-        public async Task<bool> UpdateAsync(int id, UserViewModel entity)
+        public async Task<bool> UpdateAsync(long id, UserViewModel entity)
         {
             var temp = await  unitOfWork.Users.FindByIdAsync(id);
-            mapper.Map<User>(entity);
             if (temp is not null)
             {
-                unitOfWork.Users.Update(mapper.Map<User>(entity));
+                unitOfWork.Users.Update(id, mapper.Map<User>(entity));
                 var res = await unitOfWork.SaveChangesAsync();
                 return res > 0;
             }
