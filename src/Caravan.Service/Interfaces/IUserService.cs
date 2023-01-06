@@ -11,8 +11,8 @@ namespace Caravan.Service.Interfaces
     public interface IUserService
     {
         public Task<IEnumerable<UserViewModel>> GetAllAysnc();
-        public Task<User> GetAsync(int id);
-        public Task<bool> UpdateAsync(int id, UserViewModel entity);
-        public Task<bool> DeleteAsync(int id);
+        public Task<User> GetAsync(long id);
+        public Task<bool> UpdateAsync(long id, UserViewModel entity);
+        public Task<bool> DeleteAsync(long id);
     }
 }
