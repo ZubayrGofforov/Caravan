@@ -19,6 +19,23 @@ namespace Caravan.Service.Services.Common
         {
             rootPath = environment.WebRootPath;
         }
+
+        public Task<bool> DeleteImageAsync(string imagePath)
+        {
+            string filePath = Path.Combine(rootPath, imagePath);
+            if(!File.Exists(filePath)) return Task.FromResult(false);
+
+            try
+            {
+                File.Delete(filePath);
+                return Task.FromResult(true);
+            }
+            catch (Exception)
+            {
+                return Task.FromResult(false);
+            }
+        }
+
         public async Task<string> SaveImageAsync(IFormFile file)
         {
             string ImageName = ImageHelper.UniqueName(file.FileName);
