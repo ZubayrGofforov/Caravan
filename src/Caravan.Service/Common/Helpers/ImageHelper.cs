@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Caravan.Service.Common.Helpers
 {
-    internal class ImageHelper
+    public class ImageHelper
     {
+        public static string UniqueName(string fileName)
+        {
+            string extension = Path.GetExtension(fileName);
+            string imageName = "IMG_" + new Guid().ToString();
+            return imageName + extension;
+        }
     }
 }
