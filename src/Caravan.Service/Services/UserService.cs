@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Caravan.DataAccess.DbContexts;
+using Caravan.DataAccess.Interfaces.Common;
 using Caravan.Domain.Entities;
 using Caravan.Service.Common.Exceptions;
 using Caravan.Service.Interfaces;
+using Caravan.Service.Interfaces.Common;
 using Caravan.Service.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,24 +17,23 @@ namespace Caravan.Service.Services
 {
     public class UserService : IUserService
     {
-        private readonly AppDbContext dbContext;
         private readonly IMapper mapper;
-        public UserService(IMapper imapper)
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IImageService imageService;
+        public UserService(IMapper imapper, IUnitOfWork unitOfWork, IImageService imageService)
         {
             this.mapper = imapper;
+            this.unitOfWork = unitOfWork;
+            this.imageService = imageService;
         }
-        public UserService(AppDbContext dbContext)
+       
+        public async Task<bool> DeleteAsync(long id)
         {
-            this.dbContext = dbContext;
-        }
-
-        public async Task<bool> DeleteAsync(int id)
-        {
-            var temp = await dbContext.Users.FindAsync(id);
+            var temp = await unitOfWork.Users.FindByIdAsync(id);
             if(temp is not null)
             {
-                dbContext.Users.Remove(temp);
-                var res = await dbContext.SaveChangesAsync();
+                unitOfWork.Users.Delete(id);
+                var res = await unitOfWork.SaveChangesAsync();
                 return res > 0;
             }
             else throw new StatusCodeException(System.Net.HttpStatusCode.NotFound, "User not found");
@@ -40,27 +41,26 @@ namespace Caravan.Service.Services
 
         public async Task<IEnumerable<UserViewModel>> GetAllAysnc()
         {
-            var users = await  dbContext.Users.AsNoTracking().ToListAsync();
+            var users = await  unitOfWork.Users.GetAll().ToListAsync();
             return (IEnumerable<UserViewModel>)mapper.Map<UserViewModel>(users);
         }
 
-        public async Task<User> GetAsync(int id)
+        public async Task<User> GetAsync(long id)
         {
-            var temp = await dbContext.Users.FindAsync(id);
+            var temp = await unitOfWork.Users.FindByIdAsync(id);
             if (temp is not null)
                  return temp;
             else throw new StatusCodeException(System.Net.HttpStatusCode.NotFound, "User not found");
 
         }
 
-        public async Task<bool> UpdateAsync(int id, UserViewModel entity)
+        public async Task<bool> UpdateAsync(long id, UserViewModel entity)
         {
-            var temp = await  dbContext.Users.FindAsync(id);
-            mapper.Map<User>(entity);
+            var temp = await  unitOfWork.Users.FindByIdAsync(id);
             if (temp is not null)
             {
-                dbContext.Users.Update(mapper.Map<User>(entity));
-                var res = await dbContext.SaveChangesAsync();
+                unitOfWork.Users.Update(id, mapper.Map<User>(entity));
+                var res = await unitOfWork.SaveChangesAsync();
                 return res > 0;
             }
             else throw new StatusCodeException(System.Net.HttpStatusCode.NotFound, "User not found");
