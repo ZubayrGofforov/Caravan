@@ -3,6 +3,7 @@ using Caravan.DataAccess.DbContexts;
 using Caravan.DataAccess.Interfaces.Common;
 using Caravan.Domain.Entities;
 using Caravan.Service.Common.Exceptions;
+using Caravan.Service.Common.Utils;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
 using Caravan.Service.ViewModels;
@@ -39,9 +40,9 @@ namespace Caravan.Service.Services
             else throw new StatusCodeException(System.Net.HttpStatusCode.NotFound, "User not found");
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetAllAysnc()
+        public async Task<IEnumerable<UserViewModel>> GetAllAysnc(PaginationParams @params)
         {
-            var users = await  unitOfWork.Users.GetAll().ToListAsync();
+            var users = await unitOfWork.Users.GetAll().ToListAsync();
             return (IEnumerable<UserViewModel>)mapper.Map<UserViewModel>(users);
         }
 
