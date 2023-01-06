@@ -23,6 +23,20 @@ namespace Caravan.Service.Dtos
         public string TruckNumber { get; set; } = string.Empty;
 
         [Required]
-        public virtual Location TruckLocation { get; set; } = default!;
+        public virtual Domain.Entities.Location TruckLocation { get; set; } = default!;
+
+        public static implicit operator Truck(TruckCreateDto truckCreateDto)
+        {
+            return new Truck()
+            {
+                Name = truckCreateDto.Name,
+                ImagePath = truckCreateDto.ImagePath,
+                MaxLoad = truckCreateDto.MaxLoad,
+                IsEmpty = truckCreateDto.IsEmpty,
+                Description = truckCreateDto.Description,
+                TruckNumber = truckCreateDto.TruckNumber,
+                TruckLocation = truckCreateDto.TruckLocation
+            };
+        }
     }
 }
