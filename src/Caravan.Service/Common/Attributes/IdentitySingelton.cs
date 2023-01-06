@@ -8,7 +8,7 @@ namespace Caravan.Service.Common.Attributes
 {
     public class IdentitySingelton
         {
-         public long StudentId { get; set; }
+         public long userId { get; set; }
          public long updateId { get; set; }
 
          private static IdentitySingelton _instance;
@@ -24,7 +24,7 @@ namespace Caravan.Service.Common.Attributes
                 if (_instance == null)
                 {
                     _instance = new IdentitySingelton();
-                    _instance.StudentId = id;
+                    _instance.userId = id;
                 }
           }
 
