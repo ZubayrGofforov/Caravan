@@ -1,5 +1,7 @@
-﻿using Caravan.Domain.Enums;
+﻿using Caravan.Domain.Entities;
+using Caravan.Domain.Enums;
 using Caravan.Service.Common.Attributes;
+using Caravan.Service.Common.Security;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,5 +29,17 @@ namespace Caravan.Service.Dtos.Accounts
 
         [Required, MinLength(8), StrongPassword]
         public string Password { get; set; } = string.Empty;
+
+        public static implicit operator User(AccountRegisterDto accountRegisterDto)
+        {
+            return new User()
+            {
+                Email = accountRegisterDto.Email,
+                FirstName = accountRegisterDto.FirstName,
+                LastName = accountRegisterDto.LastName,
+                PhoneNumber = accountRegisterDto.PhoneNumber,
+                Address = accountRegisterDto.Address
+            };
+        }
     }
 }

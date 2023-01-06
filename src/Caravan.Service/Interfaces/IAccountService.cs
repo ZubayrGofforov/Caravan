@@ -10,6 +10,6 @@ namespace Caravan.Service.Interfaces
     public interface IAccountService
     {
         public Task<bool> RegisterAsync(AccountRegisterDto registerDto);
-        public Task<bool> LoginAsync(AccountLoginDto loginDto);
+        public Task<string> LoginAsync(AccountLoginDto loginDto);
     }
 }

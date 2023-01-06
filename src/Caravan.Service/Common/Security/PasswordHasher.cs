@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Caravan.Service.Common.Security
 {
-    public class PasswordHasher : IPasswordHasher
+    public class PasswordHasher
     {
-        public (string passwordHash, string salt) Hash(string password)
+        public static (string passwordHash, string salt) Hash(string password)
         {
             string salt = Guid.NewGuid().ToString();
             string strongpassword = salt + password;
@@ -18,7 +18,7 @@ namespace Caravan.Service.Common.Security
             return (passwordHash, salt);
         }
 
-        public bool Verify(string password, string salt, string passwordHash)
+        public static bool Verify(string password, string salt, string passwordHash)
         {
             string strongpassword = salt + password;
             var result = BCrypt.Net.BCrypt.Verify(passwordHash, strongpassword);
