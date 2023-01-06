@@ -1,5 +1,5 @@
-﻿using Caravan.DataAccess.Interfaces.Comman;
-using Caravan.Domain.Comman;
+﻿using Caravan.DataAccess.Interfaces.Common;
+using Caravan.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;

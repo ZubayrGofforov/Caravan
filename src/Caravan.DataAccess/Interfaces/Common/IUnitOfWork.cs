@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Caravan.DataAccess.Interfaces.Comman
+namespace Caravan.DataAccess.Interfaces.Common
 {
     public interface IUnitOfWork
     {

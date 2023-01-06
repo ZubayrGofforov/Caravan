@@ -1,6 +1,6 @@
 ﻿using Caravan.DataAccess.DbContexts;
 using Caravan.DataAccess.Interfaces;
-using Caravan.DataAccess.Repositories.Comman;
+using Caravan.DataAccess.Repositories.Common;
 using Caravan.Domain.Entities;
 using System;
 using System.Collections.Generic;
