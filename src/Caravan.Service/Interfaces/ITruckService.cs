@@ -1,6 +1,7 @@
 ﻿using Caravan.Domain.Entities;
 using Caravan.Service.Common.Utils;
 using Caravan.Service.Dtos;
+using Caravan.Service.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,12 @@ namespace Caravan.Service.Interfaces
     {
         public Task<IEnumerable<Truck>> GetAllAsync();
 
-        public Task<Truck> GetAsync(long id);
+        public Task<TruckViewModel> GetAsync(long id);
 
         public Task<bool> DeleteAsync(long id);
 
         public Task<bool> CreateAsync(TruckCreateDto dto);
 
-        public Task<bool> UpdateAsync(long id, Truck obj);
+        public Task<bool> UpdateAsync(long id, TruckCreateDto updateDto);
     }
 }
