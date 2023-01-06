@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Attributes\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Helpers\" />
     <Folder Include="Common\Validations\" />
