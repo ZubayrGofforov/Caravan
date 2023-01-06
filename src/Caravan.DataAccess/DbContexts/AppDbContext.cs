@@ -20,6 +20,7 @@ namespace Caravan.DataAccess.DbContexts
         public virtual DbSet<Administrator> Administrators { get; set; } = default!;
         public virtual DbSet<Truck> Trucks { get; set; } = default!;
         public virtual DbSet<Order> Orders { get; set; } = default!;
+        public virtual DbSet<Location> Locations { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
