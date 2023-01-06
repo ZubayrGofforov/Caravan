@@ -1,4 +1,5 @@
 ﻿using Caravan.Domain.Common;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace Caravan.Service.Dtos
@@ -9,7 +10,7 @@ namespace Caravan.Service.Dtos
         [MaxLength(30), MinLength(3)]
         public string Name { get; set; } = string.Empty;
 
-        public string? ImagePath { get; set; }
+        public IFormFile? Image { get; set; }
 
         [Required]
         public double? MaxLoad { get; set; }

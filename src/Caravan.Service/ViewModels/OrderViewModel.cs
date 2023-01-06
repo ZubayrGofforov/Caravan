@@ -19,12 +19,10 @@ namespace Caravan.Service.ViewModels
 
         public bool IsTaken { get; set; } = false;
 
-        public virtual User User { get; set; } = default!;
+        public UserViewModel User { get; set; } = default!;
 
-        public long TakenLocationId { get; set; }
-        public virtual Location TakenLocation { get; set; } = default!;
+        public Location TakenLocation { get; set; } = default!;
 
-        public long DeliveryLocationId { get; set; }
-        public virtual Location DeliveryLocation { get; } = default!;
+        public Location DeliveryLocation { get; } = default!;
     }
 }
