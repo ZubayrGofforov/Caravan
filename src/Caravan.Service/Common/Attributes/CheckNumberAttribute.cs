@@ -20,7 +20,7 @@ namespace Caravan.Service.Common.Attributes
                     return new ValidationResult("Weight must be bigger than 0");
                 return ValidationResult.Success;
             }
-            return new ValidationResult("Weight is required and must be contain only number!");
+            return new ValidationResult("Must be contain only number!");
         }
     }
 }
