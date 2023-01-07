@@ -66,16 +66,10 @@ namespace Caravan.Service.Services
         public async Task<OrderViewModel> GetAsync(long id)
         {
             var order = await _unitOfWork.Orders.FindByIdAsync(id);
-            if (order is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
 
-            var user = await _unitOfWork.Users.FindByIdAsync(order.UserId);
-            if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
-
-            var orderView = _mapper.Map<OrderViewModel>(order);
-
-            orderView.User = _mapper.Map<UserViewModel>(user);
-
-            return orderView;
+            if (order is not null)
+                return _mapper.Map<OrderViewModel>(order);
+            else throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
         }
 
         public async Task<bool> UpdateAsync(long id, OrderCreateDto updateDto)

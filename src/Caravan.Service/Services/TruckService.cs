@@ -68,16 +68,9 @@ namespace Caravan.Service.Services
         public async Task<TruckViewModel> GetAsync(long id)
         {
             var truck = await _unitOfWork.Trucks.FindByIdAsync(id);
-            if (truck is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Truck not found");
-
-            var user = await _unitOfWork.Users.FindByIdAsync(truck.UserId);
-            if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
-
-            var truckView = _mapper.Map<TruckViewModel>(truck);
-
-            truckView.User = _mapper.Map<UserViewModel>(user);
-
-            return truckView;
+            if (truck is not null)
+                return _mapper.Map<TruckViewModel>(truck);
+            else throw new StatusCodeException(HttpStatusCode.NotFound, "Track not found");
         }
 
         public async Task<bool> UpdateAsync(long id, TruckCreateDto updateDto)

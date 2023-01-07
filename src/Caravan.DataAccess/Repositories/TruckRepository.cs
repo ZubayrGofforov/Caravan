@@ -2,6 +2,7 @@
 using Caravan.DataAccess.Interfaces;
 using Caravan.DataAccess.Repositories.Common;
 using Caravan.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,12 @@ namespace Caravan.DataAccess.Repositories
     {
         public TruckRepository(AppDbContext appDbContext) : base(appDbContext)
         {
+        }
+        public override async Task<Truck?> FindByIdAsync(long id)
+        {
+            var res = await _dbContext.Trucks.Include(x => x.Users).FirstOrDefaultAsync(x => x.Id== id);
+            if (res is null) return null; 
+            return res;
         }
     }
 }
