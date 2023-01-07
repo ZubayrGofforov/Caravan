@@ -22,14 +22,11 @@ namespace Caravan.Service.Services
         private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
         private readonly IImageService imageService;
-        //private readonly IPaginatorService paginatorService;
-
         public UserService(IMapper imapper, IUnitOfWork unitOfWork, IImageService imageService)
         {
             this.mapper = imapper;
             this.unitOfWork = unitOfWork;
             this.imageService = imageService;
-            //this.paginatorService = paginatorService;
         }
        
         public async Task<bool> DeleteAsync(long id)
@@ -46,9 +43,8 @@ namespace Caravan.Service.Services
 
         public async Task<IEnumerable<UserViewModel>> GetAllAysnc(PaginationParams @params)
         {
-            var users = unitOfWork.Users.GetAll().Select(x => mapper.Map<UserViewModel>(x));
-            
-            return await PagedList<UserViewModel>.ToPagedListAsync(users, @params.PageNumber,@params.PageSize);
+            var users = await unitOfWork.Users.GetAll().ToListAsync();
+            return (IEnumerable<UserViewModel>)mapper.Map<UserViewModel>(users);
         }
 
         public async Task<User> GetAsync(long id)
