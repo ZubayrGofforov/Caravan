@@ -1,4 +1,6 @@
 ﻿using Caravan.DataAccess.DbContexts;
+using Caravan.DataAccess.Interfaces.Common;
+using Caravan.DataAccess.Repositories.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace Caravan.Api.Configuration.LayerConfigurations
@@ -9,7 +11,7 @@ namespace Caravan.Api.Configuration.LayerConfigurations
         {
             string connectionString = builder.Configuration.GetConnectionString("DatabaseConnection");
             builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
-            //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

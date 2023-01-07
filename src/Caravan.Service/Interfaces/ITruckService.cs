@@ -13,7 +13,7 @@ namespace Caravan.Service.Interfaces
 {
     public interface ITruckService 
     {
-        public Task<IEnumerable<Truck>> GetAllAsync();
+        public Task<IEnumerable<Truck>> GetAllAsync(PaginationParams @paginationParams);
 
         public Task<TruckViewModel> GetAsync(long id);
 
