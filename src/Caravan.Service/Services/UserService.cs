@@ -60,7 +60,7 @@ namespace Caravan.Service.Services
 
         }
 
-        public async Task<bool> UpdateAsync(long id, AccountRegisterDto entity)
+        public async Task<bool> UpdateAsync(long id, UserUpdateDto entity)
         {
             var temp = await  unitOfWork.Users.FindByIdAsync(id);
             if (temp is not null)

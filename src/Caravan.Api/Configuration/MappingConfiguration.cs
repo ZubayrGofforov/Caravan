@@ -2,6 +2,7 @@
 using Caravan.Domain.Common;
 using Caravan.Domain.Entities;
 using Caravan.Service.Dtos;
+using Caravan.Service.Dtos.Accounts;
 using Caravan.Service.ViewModels;
 
 namespace Caravan.Api.Configuration
@@ -16,6 +17,7 @@ namespace Caravan.Api.Configuration
             CreateMap<UserViewModel,User>().ReverseMap();
             CreateMap<OrderViewModel,Order>().ReverseMap();
             CreateMap<LocationCreateDto,Location>().ReverseMap();
+            CreateMap<UserUpdateDto, User>();
         }
     }
 }

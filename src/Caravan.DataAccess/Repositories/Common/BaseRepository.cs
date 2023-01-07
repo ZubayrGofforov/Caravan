@@ -33,6 +33,7 @@ namespace Caravan.DataAccess.Repositories.Common
 
         public virtual async Task<T?> FindByIdAsync(long id)
         {
+
             return await _dbSet.FindAsync(id);
         }
 
