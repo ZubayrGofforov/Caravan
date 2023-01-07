@@ -29,11 +29,7 @@ namespace Caravan.Service.Services
         private readonly IPaginatorService _paginator;
         private readonly IMapper _mapper;
         private readonly IImageService _imageService;
-        public TruckService(IUnitOfWork unitOfWork, IPaginatorService paginatorService)
-        {
-            this._unitOfWork = unitOfWork;
-            this._paginator = paginatorService;
-        }
+      
         public TruckService(IUnitOfWork unitOfWork, IPaginatorService paginatorService, IMapper mapper, IImageService imageService)
         {
             this._unitOfWork = unitOfWork;

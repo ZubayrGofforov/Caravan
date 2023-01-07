@@ -6,6 +6,7 @@ using Caravan.Domain.Entities;
 using Caravan.Service.Common.Attributes;
 using Caravan.Service.Common.Exceptions;
 using Caravan.Service.Common.Helpers;
+using Caravan.Service.Common.Utils;
 using Caravan.Service.Dtos;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
@@ -22,13 +23,15 @@ namespace Caravan.Service.Services
     public class OrderService : IOrderService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPaginatorService _paginator;
         private readonly IMapper _mapper;
         private readonly IImageService _imageService;
-        public OrderService(IUnitOfWork dbContext, IMapper mapper, IImageService imageService)
+        public OrderService(IUnitOfWork dbContext, IPaginatorService paginatorService, IMapper mapper, IImageService imageService)
         {
-            _unitOfWork = dbContext;
-            _mapper = mapper;
-            _imageService = imageService;
+            this._unitOfWork = dbContext;
+            this._paginator = paginatorService;
+            this._mapper = mapper;
+            this._imageService = imageService;
         }
 
         public async Task<bool> CreateAsync(OrderCreateDto createDto)
@@ -61,9 +64,11 @@ namespace Caravan.Service.Services
 
         }
 
-        public Task<IEnumerable<Order>> GetAllAsync()
+        public async Task<IEnumerable<Order>> GetAllAsync(PaginationParams @paginationParams)
         {
-            throw new NotImplementedException();
+            var query = _unitOfWork.Orders.GetAll().OrderBy(x => x.CreatedAt);
+            var data = await _paginator.ToPagedAsync(query, @paginationParams.PageNumber, @paginationParams.PageSize);
+            return data;
         }
 
 

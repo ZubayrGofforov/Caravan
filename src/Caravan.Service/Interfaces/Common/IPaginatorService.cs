@@ -1,4 +1,5 @@
-﻿using Caravan.Service.Common.Utils;
+﻿using Caravan.Domain.Entities;
+using Caravan.Service.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
