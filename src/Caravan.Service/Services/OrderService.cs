@@ -32,11 +32,12 @@ namespace Caravan.Service.Services
 
         public async Task<bool> CreateAsync(OrderCreateDto createDto)
         {
-            var user = await _unitOfWork.Users.FindByIdAsync(IdentitySingelton.currentId().userId);
+            var user = await _unitOfWork.Users.FindByIdAsync(createDto.UserId);
             if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
 
             var order = _mapper.Map<Order>(createDto);
             order.CreatedAt = TimeHelper.GetCurrentServerTime();
+            order.UpdatedAt = TimeHelper.GetCurrentServerTime();
             order.ImagePath = await _imageService.SaveImageAsync(createDto.Image!);
 
             _unitOfWork.Orders.Add(order);
