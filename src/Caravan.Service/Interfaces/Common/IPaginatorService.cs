@@ -9,6 +9,6 @@ namespace Caravan.Service.Interfaces.Common
 {
     public interface IPaginatorService
     {
-        void ToPaginator(PaginationMetaData metaData);
+        public Task<IList<T>> ToPagedAsync<T>(IQueryable<T> items, int pageNumber, int pageSize);
     }
 }

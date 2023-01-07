@@ -12,6 +12,7 @@ using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
 using Caravan.Service.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +26,20 @@ namespace Caravan.Service.Services
     public class TruckService : ITruckService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPaginatorService _paginator;
         private readonly IMapper _mapper;
         private readonly IImageService _imageService;
-        public TruckService(IUnitOfWork unitOfWork, IMapper mapper, IImageService imageService)
+        //public TruckService(IUnitOfWork unitOfWork, IPaginatorService paginatorService)
+        //{
+        //    this._unitOfWork = unitOfWork;
+        //    this._paginator = paginatorService;
+        //}
+        public TruckService(IUnitOfWork unitOfWork, IPaginatorService paginatorService, IMapper mapper, IImageService imageService)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-            _imageService = imageService;
+            this._unitOfWork = unitOfWork;
+            this._paginator = paginatorService;
+            this._mapper = mapper;
+            this._imageService = imageService;
         }
 
         public async Task<bool> CreateAsync(TruckCreateDto dto)
@@ -60,9 +68,11 @@ namespace Caravan.Service.Services
             return res > 0;
         }
 
-        public async Task<IEnumerable<Truck>> GetAllAsync()
+        public async Task<IEnumerable<Truck>> GetAllAsync(PaginationParams @paginationParams)
         {
-            throw new NotImplementedException();
+            var query = _unitOfWork.Trucks.GetAll().OrderBy(x => x.CreatedAt);
+            var data = await _paginator.ToPagedAsync(query, @paginationParams.PageNumber, @paginationParams.PageSize);
+            return data;
         }
 
         public async Task<TruckViewModel> GetAsync(long id)

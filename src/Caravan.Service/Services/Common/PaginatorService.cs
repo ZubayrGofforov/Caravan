@@ -1,6 +1,7 @@
 ﻿using Caravan.Service.Common.Utils;
 using Caravan.Service.Interfaces.Common;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,31 @@ namespace Caravan.Service.Services.Common
 {
     public class PaginatorService : IPaginatorService
     {
-        private readonly HttpContextAccessor _accessor;
-        public PaginatorService(HttpContextAccessor accessor)
+        private readonly IHttpContextAccessor _accessor;
+        public PaginatorService(IHttpContextAccessor accessor)
         {
-            _accessor = accessor;
+            this._accessor = accessor;
         }
-        public void ToPaginator(PaginationMetaData metaData)
+
+        public async Task<IList<T>> ToPagedAsync<T>(IQueryable<T> items, int pageNumber, int pageSize)
         {
-            _accessor.HttpContext.Response.Headers.Add("X-Pagination",
-                JsonConvert.SerializeObject(metaData));   
+            int totalItems = await items.CountAsync();
+            PaginationMetaData paginationMetaData = new PaginationMetaData()
+            {
+                CurrentPage = pageNumber,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                TotalPages = (int) Math.Ceiling((double) totalItems / (double)pageSize),
+                HasPrevious = pageNumber > 1
+            };
+            paginationMetaData.HasNext = paginationMetaData.CurrentPage < paginationMetaData.TotalPages;
+
+            string json = JsonConvert.SerializeObject(paginationMetaData);
+            _accessor.HttpContext!.Response.Headers.Add("X-Pagination", json);
+
+            return await items.Skip(pageNumber * pageSize - pageSize)
+                              .Take(pageSize)
+                              .ToListAsync();
         }
     }
 }

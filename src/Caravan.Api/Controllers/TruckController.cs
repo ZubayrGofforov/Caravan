@@ -1,4 +1,5 @@
-﻿using Caravan.Service.Dtos;
+﻿using Caravan.Service.Common.Utils;
+using Caravan.Service.Dtos;
 using Caravan.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,16 @@ namespace Caravan.Api.Controllers
     public class TruckController : ControllerBase
     {
         private readonly ITruckService _service;
+        private readonly int pageSize = 20;
         public TruckController(ITruckService truckService)
         {
             this._service = truckService;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllAsync(int page)
+            => Ok(await _service.GetAllAsync(new PaginationParams(page, pageSize)));
+
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromForm] TruckCreateDto dto)
             => Ok(await _service.CreateAsync(dto));

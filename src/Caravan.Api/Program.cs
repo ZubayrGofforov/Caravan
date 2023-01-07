@@ -10,20 +10,27 @@ using Caravan.Service.Interfaces.Security;
 using Caravan.Service.Services;
 using Caravan.Service.Services.Common;
 
+//-> Services
 var builder = WebApplication.CreateBuilder(args);
-
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 
 
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthManager, AuthManager>();
+<<<<<<< HEAD
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+=======
+builder.Services.AddScoped<IPaginatorService, PaginatorService>();
+//builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ITruckService, TruckService>();
+builder.Services.ConfigureSwaggerAuthorize();
+>>>>>>> 4c2f8f7 (Pagination updated)
 
 //database
 builder.ConfigureDataAccess();
@@ -31,6 +38,7 @@ builder.ConfigureDataAccess();
 
 //Mapper
 builder.Services.AddAutoMapper(typeof(MappingConfiguration));
+
 
 //Middlewares
 var app = builder.Build();
