@@ -22,15 +22,15 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthManager, AuthManager>();
-<<<<<<< HEAD
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-=======
+
 builder.Services.AddScoped<IPaginatorService, PaginatorService>();
 //builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ITruckService, TruckService>();
 builder.Services.ConfigureSwaggerAuthorize();
->>>>>>> 4c2f8f7 (Pagination updated)
+
 
 //database
 builder.ConfigureDataAccess();
