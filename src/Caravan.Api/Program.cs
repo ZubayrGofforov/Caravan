@@ -23,7 +23,7 @@ builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthManager, AuthManager>();
 builder.Services.AddScoped<IUserService, UserService>();
-//builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 //database
 builder.ConfigureDataAccess();
