@@ -1,6 +1,8 @@
 ﻿using Caravan.DataAccess.DbContexts;
+using Caravan.DataAccess.Interfaces.Common;
 using Caravan.Domain.Entities;
 using Caravan.Service.Common.Exceptions;
+using Caravan.Service.Common.Helpers;
 using Caravan.Service.Common.Security;
 using Caravan.Service.Dtos.Accounts;
 using Caravan.Service.Interfaces;
@@ -18,11 +20,11 @@ namespace Caravan.Service.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly AppDbContext _repository;
+        private readonly IUnitOfWork _repository;
         private readonly IAuthManager _authManager;
         private readonly IImageService _image;
 
-        public AccountService(AppDbContext repository, IAuthManager authManager, IImageService image)
+        public AccountService(IUnitOfWork repository, IAuthManager authManager, IImageService image)
         {
             _repository = repository;
             _authManager = authManager;
@@ -34,15 +36,12 @@ namespace Caravan.Service.Services
             var user = await _repository.Users.FirstOrDefaultAsync(x => x.Email == loginDto.Email);
             if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found, Email is incorrect!");
 
-            else
+            var hasherResult = PasswordHasher.Verify(loginDto.Password, user.Salt, user.PasswordHash);
+            if (hasherResult)
             {
-                var hasherResult = PasswordHasher.Verify(loginDto.Password, user.Salt, user.PasswordHash);
-                if (hasherResult)
-                {
-                    return _authManager.GenerateToken(user);
-                }
-                else throw new StatusCodeException(HttpStatusCode.BadRequest, "Password is wrong!");
+                return _authManager.GenerateToken(user);
             }
+            else throw new StatusCodeException(HttpStatusCode.BadRequest, "Password is wrong!");
 
         }
 
@@ -56,8 +55,9 @@ namespace Caravan.Service.Services
             var user = (User)registerDto;
             user.PasswordHash = hasherResult.passwordHash;
             user.Salt = hasherResult.salt;
-
-            _repository.Add(user);
+            user.CreatedAt = TimeHelper.GetCurrentServerTime();
+            user.UpdatedAt = TimeHelper.GetCurrentServerTime();
+            _repository.Users.Add(user);
             var databaseResult = await _repository.SaveChangesAsync();
             return databaseResult > 0;
         }

@@ -47,11 +47,11 @@ namespace Caravan.Service.Services
             return (IEnumerable<UserViewModel>)mapper.Map<UserViewModel>(users);
         }
 
-        public async Task<User> GetAsync(long id)
+        public async Task<UserViewModel> GetAsync(long id)
         {
             var temp = await unitOfWork.Users.FindByIdAsync(id);
             if (temp is not null)
-                 return temp;
+                 return mapper.Map<UserViewModel>(temp);
             else throw new StatusCodeException(System.Net.HttpStatusCode.NotFound, "User not found");
 
         }
