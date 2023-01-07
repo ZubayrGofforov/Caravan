@@ -1,5 +1,6 @@
 ﻿using Caravan.DataAccess.DbContexts;
 using Caravan.Domain.Entities;
+using Caravan.Service.Common.Utils;
 using Caravan.Service.Dtos;
 using Caravan.Service.ViewModels;
 using System;
@@ -12,7 +13,7 @@ namespace Caravan.Service.Interfaces
 {
     public interface IOrderService
     {
-        public Task<IEnumerable<Order>> GetAllAsync();
+        public Task<IEnumerable<Order>> GetAllAsync(PaginationParams @paginationParams);
         public Task<OrderViewModel> GetAsync(long id);
         public Task<bool> UpdateAsync(long id,OrderCreateDto updateDto);
         public Task<bool> DeleteAsync(long id);

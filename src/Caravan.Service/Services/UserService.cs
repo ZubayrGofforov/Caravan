@@ -21,12 +21,14 @@ namespace Caravan.Service.Services
     {
         private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IPaginatorService _paginatorService;
         private readonly IImageService imageService;
-        public UserService(IMapper imapper, IUnitOfWork unitOfWork, IImageService imageService)
+        public UserService(IMapper imapper, IPaginatorService paginatorService, IUnitOfWork unitOfWork, IImageService imageService)
         {
             this.mapper = imapper;
             this.unitOfWork = unitOfWork;
             this.imageService = imageService;
+            this._paginatorService = paginatorService;
         }
        
         public async Task<bool> DeleteAsync(long id)
@@ -41,10 +43,12 @@ namespace Caravan.Service.Services
             else throw new StatusCodeException(System.Net.HttpStatusCode.NotFound, "User not found");
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetAllAysnc(PaginationParams @params)
+        public async Task<IEnumerable<User>> GetAllAysnc(PaginationParams @params)
         {
-            var users = await unitOfWork.Users.GetAll().ToListAsync();
-            return (IEnumerable<UserViewModel>)mapper.Map<UserViewModel>(users);
+            var query = unitOfWork.Users.GetAll().OrderBy(x => x.Id);
+            var data = await _paginatorService.ToPagedAsync(query, @params.PageNumber, @params.PageSize);
+            return data;
+
         }
 
         public async Task<UserViewModel> GetAsync(long id)

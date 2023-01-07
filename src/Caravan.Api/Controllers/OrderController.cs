@@ -1,4 +1,5 @@
-﻿using Caravan.Service.Dtos;
+﻿using Caravan.Service.Common.Utils;
+using Caravan.Service.Dtos;
 using Caravan.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,16 @@ namespace Caravan.Api.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _service;
+        private readonly int _pageSize = 20;
         public OrderController(IOrderService service)
         {
             _service = service;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllAsync(int page)
+            => Ok(await _service.GetAllAsync(new PaginationParams(page, _pageSize)));
+
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromForm] OrderCreateDto dto)
             => Ok(await _service.CreateAsync(dto));
