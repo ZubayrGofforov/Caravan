@@ -1,5 +1,7 @@
-﻿using Caravan.Service.Dtos.Accounts;
+﻿using Caravan.Service.Common.Utils;
+using Caravan.Service.Dtos.Accounts;
 using Caravan.Service.Interfaces;
+using Caravan.Service.Interfaces.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +13,18 @@ namespace Caravan.Api.Controllers
     {
         private readonly IUserService service;
         private readonly IAccountService accountService;
-        public UserController(IUserService service, IAccountService accountservice)
+        private readonly IPaginatorService _paginatorService;
+        private readonly int _pageSize = 20;
+        public UserController(IUserService service, IPaginatorService paginatorService, IAccountService accountservice)
         {
             this.service = service;
             this.accountService = accountservice;
+            this._paginatorService = paginatorService;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllAsync(int page)
+            => Ok(await service.GetAllAysnc(new PaginationParams(page, _pageSize)));
 
         [HttpGet ("{id}")]
         public async Task<IActionResult> GetAsync(long id)
