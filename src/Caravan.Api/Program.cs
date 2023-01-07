@@ -1,6 +1,8 @@
 using Caravan.Api.Configuration;
 using Caravan.Api.Configuration.LayerConfigurations;
 using Caravan.Api.Middlewares;
+using Caravan.DataAccess.Interfaces.Common;
+using Caravan.DataAccess.Repositories.Common;
 using Caravan.Service.Common.Security;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
@@ -18,7 +20,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthManager, AuthManager>();
+builder.Services.AddScoped<IUserService, UserService>();
 //builder.Services.AddScoped<IOrderService, OrderService>();
 
 //database

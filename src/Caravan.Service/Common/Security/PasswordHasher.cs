@@ -1,5 +1,6 @@
 ﻿using BCrypt.Net;
 using Caravan.Service.Interfaces.Security;
+using Org.BouncyCastle.Crypto.Generators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Caravan.Service.Common.Security
         public static bool Verify(string password, string salt, string passwordHash)
         {
             string strongpassword = salt + password;
-            var result = BCrypt.Net.BCrypt.Verify(passwordHash, strongpassword);
+            var result = BCrypt.Net.BCrypt.Verify(strongpassword,passwordHash);
             return result;
         }
     }
