@@ -29,5 +29,8 @@ namespace Caravan.Service.Dtos
 
         [Required]
         public long UserId { get; set; }
+
+        public LocationCreateDto? CurrentlyLocation { get; set; }
+        public LocationCreateDto? TransferLocation { get; set; }
     }
 }

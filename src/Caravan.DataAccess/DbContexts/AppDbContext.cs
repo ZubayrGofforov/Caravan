@@ -1,4 +1,5 @@
 ﻿using Caravan.DataAccess.Configurations;
+using Caravan.Domain.Common;
 using Caravan.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
