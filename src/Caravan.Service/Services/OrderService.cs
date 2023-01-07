@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Caravan.DataAccess.DbContexts;
 using Caravan.DataAccess.Interfaces.Common;
+using Caravan.Domain.Common;
 using Caravan.Domain.Entities;
 using Caravan.Service.Common.Attributes;
 using Caravan.Service.Common.Exceptions;
@@ -39,6 +40,8 @@ namespace Caravan.Service.Services
             order.CreatedAt = TimeHelper.GetCurrentServerTime();
             order.UpdatedAt = TimeHelper.GetCurrentServerTime();
             order.ImagePath = await _imageService.SaveImageAsync(createDto.Image!);
+
+            //var res = await _unitOfWork.Locations.Add(_mapper.Map<Location>(createDto.CurrentlyLocation));
 
             _unitOfWork.Orders.Add(order);
             var result = await _unitOfWork.SaveChangesAsync();

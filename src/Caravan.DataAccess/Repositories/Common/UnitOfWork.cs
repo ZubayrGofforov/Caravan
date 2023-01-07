@@ -19,6 +19,7 @@ namespace Caravan.DataAccess.Repositories.Common
         public ITruckRepository Trucks { get; }
 
         public IUserRepository Users { get; }
+        public ILocationRepository Locations { get; }
         public UnitOfWork(AppDbContext appDbContext)
         {
             this._appDbContext = appDbContext;
@@ -30,6 +31,8 @@ namespace Caravan.DataAccess.Repositories.Common
             Trucks = new TruckRepository(appDbContext);
 
             Users = new UserRepository(appDbContext);
+
+            Locations = new LocationRepository(appDbContext);
         }
 
         public async Task<int> SaveChangesAsync()
