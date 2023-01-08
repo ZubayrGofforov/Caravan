@@ -59,6 +59,8 @@ namespace Caravan.Service.Services
             if(!string.IsNullOrEmpty(order.ImagePath))
                 await _imageService.DeleteImageAsync(order.ImagePath);
 
+            _unitOfWork.Orders.Delete(id);
+
             var res = await _unitOfWork.SaveChangesAsync();
             return res > 0;
 
@@ -77,7 +79,13 @@ namespace Caravan.Service.Services
             var order = await _unitOfWork.Orders.FindByIdAsync(id);
 
             if (order is not null)
-                return _mapper.Map<OrderViewModel>(order);
+            {
+                var res = _mapper.Map<OrderViewModel>(order);
+                //res.TakenLocation.
+                return res;
+
+            }
+
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
         }
 
