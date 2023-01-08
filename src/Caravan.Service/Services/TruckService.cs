@@ -59,6 +59,7 @@ namespace Caravan.Service.Services
 
             if (!string.IsNullOrEmpty(truck.ImagePath))
                 await _imageService.DeleteImageAsync(truck.ImagePath);
+            _unitOfWork.Trucks.Delete(id);
 
             var res = await _unitOfWork.SaveChangesAsync();
             return res > 0;

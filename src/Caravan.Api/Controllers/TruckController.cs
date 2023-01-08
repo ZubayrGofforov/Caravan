@@ -19,23 +19,23 @@ namespace Caravan.Api.Controllers
             this._service = truckService;
         }
 
-        [HttpGet, Authorize(Roles = "Admin, User")]
+        [HttpGet]
         public async Task<IActionResult> GetAllAsync(int page)
             => Ok(await _service.GetAllAsync(new PaginationParams(page, pageSize)));
 
-        [HttpPost, Authorize(Roles = "Admin, User")]
+        [HttpPost]
         public async Task<IActionResult> CreateAsync([FromForm] TruckCreateDto dto)
             => Ok(await _service.CreateAsync(dto));
 
-        [HttpGet("{id}"), Authorize(Roles = "Admin, User")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(long id)
             => Ok(await _service.GetAsync(id));
 
-        [HttpDelete("{id}"), Authorize(Roles = "Admin, User")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(long id)
             => Ok(await _service.DeleteAsync(id));
 
-        [HttpPut("{id}"), Authorize(Roles = "Admin, User")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(long id, [FromForm] TruckCreateDto truckCreateDto)
             => Ok(await _service.UpdateAsync(id, truckCreateDto));
     }
