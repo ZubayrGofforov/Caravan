@@ -23,12 +23,14 @@ namespace Caravan.Service.Services
         private readonly IUnitOfWork unitOfWork;
         private readonly IPaginatorService _paginatorService;
         private readonly IImageService imageService;
-        public UserService(IMapper imapper, IPaginatorService paginatorService, IUnitOfWork unitOfWork, IImageService imageService)
+        private readonly AppDbContext appDbContext;
+        public UserService(IMapper imapper, AppDbContext appDbContext, IPaginatorService paginatorService, IUnitOfWork unitOfWork, IImageService imageService)
         {
             this.mapper = imapper;
             this.unitOfWork = unitOfWork;
             this.imageService = imageService;
             this._paginatorService = paginatorService;
+            this.appDbContext = appDbContext;
         }
        
         public async Task<bool> DeleteAsync(long id)
@@ -62,13 +64,16 @@ namespace Caravan.Service.Services
 
         public async Task<bool> UpdateAsync(long id, UserUpdateDto entity)
         {
-            var temp = await  unitOfWork.Users.FindByIdAsync(id);
-            if (temp is not null)
+            var temp = await appDbContext.Users.FindAsync(id);
+            appDbContext.Entry<User>(temp!).State = EntityState.Detached;
+            if (entity is not null)
             {
-                unitOfWork.Users.Update(id, mapper.Map<User>(entity));
-                var res = await unitOfWork.SaveChangesAsync();
-                return res > 0;
-            }
+                var res = mapper.Map<User>(entity);
+                res.Id= id;
+                appDbContext.Users.Update(res);
+                var result = await appDbContext.SaveChangesAsync();
+                return result > 0;
+            }        
             else throw new StatusCodeException(System.Net.HttpStatusCode.NotFound, "User not found");
         }
     }
