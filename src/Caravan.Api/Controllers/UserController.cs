@@ -35,7 +35,7 @@ namespace Caravan.Api.Controllers
             => Ok(await service.DeleteAsync(id));
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(long id, [FromForm] UserUpdateDto dto)
+        public async Task<IActionResult> UpdateAsync(long id, [FromBody] UserUpdateDto dto)
             => Ok(await service.UpdateAsync(id, dto));
     }
 }
