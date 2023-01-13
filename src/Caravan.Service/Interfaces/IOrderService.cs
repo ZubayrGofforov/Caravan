@@ -1,7 +1,7 @@
 ﻿using Caravan.DataAccess.DbContexts;
 using Caravan.Domain.Entities;
 using Caravan.Service.Common.Utils;
-using Caravan.Service.Dtos;
+using Caravan.Service.Dtos.Orders;
 using Caravan.Service.ViewModels;
 using System;
 using System.Collections.Generic;

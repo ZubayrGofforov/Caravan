@@ -2,7 +2,7 @@
 using Caravan.DataAccess.DbContexts;
 using Caravan.DataAccess.Interfaces.Common;
 using Caravan.Domain.Common;
-using Caravan.Service.Dtos;
+using Caravan.Service.Dtos.Locations;
 using Caravan.Service.Interfaces;
 using System;
 using System.Collections.Generic;

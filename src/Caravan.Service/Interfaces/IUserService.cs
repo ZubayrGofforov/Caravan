@@ -1,6 +1,6 @@
 ﻿using Caravan.Domain.Entities;
 using Caravan.Service.Common.Utils;
-using Caravan.Service.Dtos.Accounts;
+using Caravan.Service.Dtos.Users;
 using Caravan.Service.ViewModels;
 using System;
 using System.Collections.Generic;

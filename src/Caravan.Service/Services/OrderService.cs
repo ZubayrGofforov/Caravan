@@ -7,7 +7,7 @@ using Caravan.Service.Common.Attributes;
 using Caravan.Service.Common.Exceptions;
 using Caravan.Service.Common.Helpers;
 using Caravan.Service.Common.Utils;
-using Caravan.Service.Dtos;
+using Caravan.Service.Dtos.Orders;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
 using Caravan.Service.ViewModels;

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Caravan.Service.Dtos.Accounts
+namespace Caravan.Service.Dtos.Users
 {
     public class UserUpdateDto
     {
