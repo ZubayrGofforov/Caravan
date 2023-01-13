@@ -23,6 +23,6 @@ namespace Caravan.Service.Dtos
         public string TruckNumber { get; set; } = string.Empty;
 
         [Required]
-        public virtual Domain.Common.Location TruckLocation { get; set; } = default!;
+        public LocationCreateDto TruckLocation { get; set; } = default!;
     }
 }

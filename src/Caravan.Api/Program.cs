@@ -29,6 +29,8 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IPaginatorService, PaginatorService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ITruckService, TruckService>();
+builder.Services.AddScoped<ILocationService, LocationService>();
+
 builder.Services.ConfigureSwaggerAuthorize();
 
 

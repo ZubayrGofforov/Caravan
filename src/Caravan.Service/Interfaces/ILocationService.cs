@@ -9,6 +9,6 @@ namespace Caravan.Service.Interfaces
 {
     public interface ILocationService
     {
-        //public Task<bool> CreateAsync(LocationCreateDto createDto);
+        public Task<(bool IsSuccessful, long Id)> CreateAsync(LocationCreateDto createDto);
     }
 }
