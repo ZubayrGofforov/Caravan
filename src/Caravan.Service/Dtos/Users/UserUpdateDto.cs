@@ -19,10 +19,10 @@ namespace Caravan.Service.Dtos.Users
 
         public string Address { get; set; } = string.Empty;
 
-        [Required, PhoneNumber]
+        [Required, PhoneNumberAttribute]
         public string PhoneNumber { get; set; } = string.Empty;
 
-        [Required, Email]
+        [Required, EmailAttribute]
         public string Email { get; set; } = string.Empty;
 
         [Required, MinLength(8), StrongPassword]
