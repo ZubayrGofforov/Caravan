@@ -1,6 +1,7 @@
 ﻿using Caravan.DataAccess.DbContexts;
 using Caravan.DataAccess.Interfaces.Common;
 using Caravan.Domain.Entities;
+using Caravan.Service.Common.Attributes;
 using Caravan.Service.Common.Exceptions;
 using Caravan.Service.Common.Helpers;
 using Caravan.Service.Common.Security;
@@ -23,6 +24,8 @@ namespace Caravan.Service.Services
         private readonly IUnitOfWork _repository;
         private readonly IAuthManager _authManager;
         private readonly IImageService _image;
+        IdentitySingelton identity = new IdentitySingelton();
+        
 
         public AccountService(IUnitOfWork repository, IAuthManager authManager, IImageService image)
         {
@@ -40,8 +43,34 @@ namespace Caravan.Service.Services
             if (hasherResult)
             {
                 return _authManager.GenerateToken(user);
+                
             }
             else throw new StatusCodeException(HttpStatusCode.BadRequest, "Password is wrong!");
+
+        }
+
+        public async Task<bool> PasswordUpdateAsync(PasswordUpdateDto passwordUpdateDto)
+        {
+            var user = await _repository.Users.FindByIdAsync(3);
+            if (user is not null)
+            {
+                var result = PasswordHasher.Verify(passwordUpdateDto.OldPassword, user.Salt, user.PasswordHash);
+                if (result)
+                {
+                    if (passwordUpdateDto.NewPassword == passwordUpdateDto.VerifyPassword)
+                    {
+                        var hash = PasswordHasher.Hash(passwordUpdateDto.VerifyPassword);
+                        user.Salt = hash.salt;
+                        user.PasswordHash = hash.passwordHash;
+                        _repository.Users.Update(user.Id, user);
+                        var res = await _repository.SaveChangesAsync();
+                        return res > 0;
+                    }
+                    else throw new StatusCodeException(HttpStatusCode.BadRequest, "new password and verify password must be match");
+                }
+                else throw new StatusCodeException(HttpStatusCode.BadRequest, "Invalid Password");
+            }
+            else throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
 
         }
 

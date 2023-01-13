@@ -23,5 +23,8 @@ namespace Caravan.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto loginDto)
             => Ok(new {Token = await _accountService.LoginAsync(loginDto)});
+        [HttpPatch("updatePassword")]
+        public async Task<IActionResult> UpdatePasswordAsync([FromForm] PasswordUpdateDto updatePasswordDto)
+            => Ok(await _accountService.PasswordUpdateAsync(updatePasswordDto));
     }
 }
