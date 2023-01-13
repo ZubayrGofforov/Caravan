@@ -1,5 +1,5 @@
 ﻿using Caravan.Service.Common.Utils;
-using Caravan.Service.Dtos;
+using Caravan.Service.Dtos.Orders;
 using Caravan.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

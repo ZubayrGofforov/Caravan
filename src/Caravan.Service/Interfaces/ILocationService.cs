@@ -1,4 +1,4 @@
-﻿using Caravan.Service.Dtos;
+﻿using Caravan.Service.Dtos.Locations;
 using System;
 using System.Collections.Generic;
 using System.Linq;

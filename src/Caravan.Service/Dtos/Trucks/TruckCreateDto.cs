@@ -1,8 +1,9 @@
 ﻿using Caravan.Domain.Common;
+using Caravan.Service.Dtos.Locations;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
-namespace Caravan.Service.Dtos
+namespace Caravan.Service.Dtos.Trucks
 {
     public class TruckCreateDto
     {

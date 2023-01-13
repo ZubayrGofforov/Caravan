@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Caravan.Service.Dtos.Accounts
+namespace Caravan.Service.Dtos.Users
 {
     public class UserUpdateDto
     {
@@ -19,10 +19,10 @@ namespace Caravan.Service.Dtos.Accounts
 
         public string Address { get; set; } = string.Empty;
 
-        [Required, PhoneNumberAttribute]
+        [Required, PhoneNumber]
         public string PhoneNumber { get; set; } = string.Empty;
 
-        [Required, EmailAttribute]
+        [Required, Email]
         public string Email { get; set; } = string.Empty;
 
         [Required, MinLength(8), StrongPassword]

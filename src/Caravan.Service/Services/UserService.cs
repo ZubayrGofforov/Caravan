@@ -4,7 +4,7 @@ using Caravan.DataAccess.Interfaces.Common;
 using Caravan.Domain.Entities;
 using Caravan.Service.Common.Exceptions;
 using Caravan.Service.Common.Utils;
-using Caravan.Service.Dtos.Accounts;
+using Caravan.Service.Dtos.Users;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
 using Caravan.Service.ViewModels;

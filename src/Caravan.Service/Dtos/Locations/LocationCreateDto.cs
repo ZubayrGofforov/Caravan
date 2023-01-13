@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Caravan.Service.Dtos
+namespace Caravan.Service.Dtos.Locations
 {
     public class LocationCreateDto
     {
