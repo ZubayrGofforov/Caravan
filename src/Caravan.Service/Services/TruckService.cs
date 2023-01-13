@@ -29,26 +29,31 @@ namespace Caravan.Service.Services
         private readonly IPaginatorService _paginator;
         private readonly IMapper _mapper;
         private readonly IImageService _imageService;
+        private readonly ILocationService _locationService;
       
-        public TruckService(IUnitOfWork unitOfWork, IPaginatorService paginatorService, IMapper mapper, IImageService imageService)
+        public TruckService(IUnitOfWork unitOfWork, IPaginatorService paginatorService, IMapper mapper, IImageService imageService, ILocationService locationService)
         {
             this._unitOfWork = unitOfWork;
             this._paginator = paginatorService;
             this._mapper = mapper;
             this._imageService = imageService;
+            this._locationService = locationService;
         }
 
         public async Task<bool> CreateAsync(TruckCreateDto dto)
         {
-            var user = await _unitOfWork.Users.FindByIdAsync(IdentitySingelton.currentId().userId);
+            var user = await _unitOfWork.Users.FindByIdAsync(1);
             if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
 
             var truck = _mapper.Map<Truck>(dto);
             truck.CreatedAt = TimeHelper.GetCurrentServerTime();
             truck.ImagePath = await _imageService.SaveImageAsync(dto.Image!);
+            var res = await _locationService.CreateAsync(dto.TruckLocation);
+            if (res.IsSuccessful) truck.LocationId = res.Id;
+            else throw new StatusCodeException(HttpStatusCode.BadRequest, "Location is invalid");
 
             _unitOfWork.Trucks.Add(truck);
-            var result = await _unitOfWork.SaveChangesAsync();
+           var result = await _unitOfWork.SaveChangesAsync();
             return result > 0;
         }
 
