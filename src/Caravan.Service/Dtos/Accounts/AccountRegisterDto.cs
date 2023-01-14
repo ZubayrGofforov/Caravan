@@ -21,7 +21,7 @@ namespace Caravan.Service.Dtos.Accounts
 
         public string Address { get; set; } = string.Empty;
 
-        [Required, PhoneNumberAttribute]
+        [Required(AllowEmptyStrings = false), PhoneNumberAttribute]
         public string PhoneNumber { get; set; } = string.Empty;
 
         [Required, EmailAttribute]

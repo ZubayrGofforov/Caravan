@@ -3,6 +3,7 @@ using Caravan.DataAccess.DbContexts;
 using Caravan.DataAccess.Interfaces.Common;
 using Caravan.Domain.Entities;
 using Caravan.Service.Common.Exceptions;
+using Caravan.Service.Common.Helpers;
 using Caravan.Service.Common.Utils;
 using Caravan.Service.Dtos.Users;
 using Caravan.Service.Interfaces;
@@ -70,6 +71,15 @@ namespace Caravan.Service.Services
             {
                 var res = mapper.Map<User>(entity);
                 res.Id= id;
+                res.PasswordHash = temp!.PasswordHash;
+                res.Salt = temp.Salt;
+                res.Email = temp.Email;
+                res.FirstName = string.IsNullOrWhiteSpace(entity.FirstName) ? temp.FirstName : entity.FirstName;
+                res.LastName = string.IsNullOrWhiteSpace(entity.LastName) ? temp.LastName : entity.LastName;
+                res.Address = string.IsNullOrWhiteSpace(entity.Address) ? temp.Address : entity.Address;
+                res.PhoneNumber = string.IsNullOrWhiteSpace(entity.PhoneNumber) ? temp.PhoneNumber : entity.PhoneNumber;
+                res.CreatedAt = temp.CreatedAt;
+                res.UpdatedAt = TimeHelper.GetCurrentServerTime();
                 appDbContext.Users.Update(res);
                 var result = await appDbContext.SaveChangesAsync();
                 return result > 0;
