@@ -38,23 +38,24 @@ namespace Caravan.Service.Services
 
         public async Task<bool> CreateAsync(OrderCreateDto createDto)
         {
-            var user = await _unitOfWork.Users.FindByIdAsync(1);
+            var user = await _unitOfWork.Users.FindByIdAsync(HttpContextHelper.UserId);
             if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
 
             var order = _mapper.Map<Order>(createDto);
+            order.UserId = HttpContextHelper.UserId;
             order.CreatedAt = TimeHelper.GetCurrentServerTime();
             order.UpdatedAt = TimeHelper.GetCurrentServerTime();
             order.ImagePath = await _imageService.SaveImageAsync(createDto.Image!);
 
             var resultTaken = await _locationService.CreateAsync(createDto.CurrentlyLocation);
-            if(resultTaken.IsSuccessful) order.TakenLocationId = resultTaken.Id;
+            if (resultTaken.IsSuccessful) order.TakenLocationId = resultTaken.Id;
+            else throw new StatusCodeException(HttpStatusCode.BadRequest, "Location is invalid");
 
             var resultDelivery = await _locationService.CreateAsync(createDto.TransferLocation);
             if(resultDelivery.IsSuccessful) order.DeliveryLocationId = resultDelivery.Id;
+            else throw new StatusCodeException(HttpStatusCode.BadRequest, "Location is invalid");
 
-            order.UserId = 1;
-
-            _unitOfWork.Orders.Add(order);
+            var r = await Task.Run(() => _unitOfWork.Orders.Add(order));
             var result = await _unitOfWork.SaveChangesAsync();
             return result > 0;
         }

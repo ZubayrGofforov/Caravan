@@ -26,11 +26,7 @@ namespace Caravan.Service.Services
         {
             var res = _unitOfWork.Locations.Add(_mapper.Map<Location>(createDto));
             var result = await _unitOfWork.SaveChangesAsync();
-<<<<<<< HEAD
             return result > 0 ? (true,res.Id) : (false, res.Id);
-=======
-            return result > 0 ? (true,res.Id) : (false, result);
->>>>>>> dd5daa1 (nimadir)
         }
     }
 }
