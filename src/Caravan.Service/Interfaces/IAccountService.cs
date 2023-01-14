@@ -11,5 +11,7 @@ namespace Caravan.Service.Interfaces
     {
         public Task<bool> RegisterAsync(AccountRegisterDto registerDto);
         public Task<string> LoginAsync(AccountLoginDto loginDto);
+        public Task SendCodeAsync(SendToEmailDto sendToEmail);
+        public Task<bool> VerifyPasswordAsync(UserResetPasswordDto userResetPassword);
     }
 }

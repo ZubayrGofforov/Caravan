@@ -5,10 +5,12 @@ using Caravan.Service.Common.Exceptions;
 using Caravan.Service.Common.Helpers;
 using Caravan.Service.Common.Security;
 using Caravan.Service.Dtos.Accounts;
+using Caravan.Service.Dtos.Common;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
 using Caravan.Service.Interfaces.Security;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +25,16 @@ namespace Caravan.Service.Services
         private readonly IUnitOfWork _repository;
         private readonly IAuthManager _authManager;
         private readonly IImageService _image;
+        private readonly IMemoryCache _memoryCache;
+        private readonly IEmailService _emailService;
 
-        public AccountService(IUnitOfWork repository, IAuthManager authManager, IImageService image)
+        public AccountService(IUnitOfWork repository, IAuthManager authManager, IImageService image, IMemoryCache memoryCache, IEmailService emailService)
         {
             _repository = repository;
             _authManager = authManager;
             _image = image;
+            _memoryCache = memoryCache;
+            _emailService = emailService;
         }
 
         public async Task<string> LoginAsync(AccountLoginDto loginDto)
@@ -60,6 +66,44 @@ namespace Caravan.Service.Services
             _repository.Users.Add(user);
             var databaseResult = await _repository.SaveChangesAsync();
             return databaseResult > 0;
+        }
+
+        public async Task SendCodeAsync(SendToEmailDto sendToEmail)
+        {
+            int code = new Random().Next(100000, 999999);
+            _memoryCache.Set(sendToEmail.Email, code, TimeSpan.FromMinutes(10));
+
+            var message = new EmailMessage()
+            {
+                To = sendToEmail.Email,
+                Subject = "Verification code",
+                Body = code.ToString()
+            };
+            
+            await _emailService.SendAsync(message);
+        }
+
+        public async Task<bool> VerifyPasswordAsync(UserResetPasswordDto userResetPassword)
+        {
+            var user = await _repository.Users.GetByEmailAsync(userResetPassword.Email);
+            if (user == null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
+
+            if (_memoryCache.TryGetValue(userResetPassword.Email, out int expectedCode) is false)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Code is expired");
+
+            if (expectedCode != userResetPassword.Code)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Code is wrong");
+
+            var newPassword = PasswordHasher.Hash(userResetPassword.Password);
+
+            user.PasswordHash = newPassword.passwordHash;
+            user.Salt = newPassword.salt;
+
+            _repository.Users.Update(user.Id, user);
+
+            var res = await _repository.SaveChangesAsync();
+            
+            return res > 0;
         }
     }
 }
