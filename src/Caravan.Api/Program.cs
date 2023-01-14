@@ -36,6 +36,8 @@ builder.Services.AddScoped<IPaginatorService, PaginatorService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ITruckService, TruckService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddMemoryCache();
 
 builder.Services.ConfigureSwaggerAuthorize();
 //database

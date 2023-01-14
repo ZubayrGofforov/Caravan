@@ -7,10 +7,10 @@ using MimeKit.Text;
 
 namespace Caravan.Service.Services.Common
 {
-    public class EmailMessage : IEmailService
+    public class EmailService : IEmailService
     {
         private readonly IConfiguration _config;
-        public EmailMessage(IConfiguration config)
+        public EmailService(IConfiguration config)
         {
             this._config = config.GetSection("EmailSettings");
         }
