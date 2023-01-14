@@ -42,18 +42,19 @@ namespace Caravan.Service.Services
 
         public async Task<bool> CreateAsync(TruckCreateDto dto)
         {
-            var user = await _unitOfWork.Users.FindByIdAsync(1);
+            var user = await _unitOfWork.Users.FindByIdAsync(HttpContextHelper.UserId);
             if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
 
             var truck = _mapper.Map<Truck>(dto);
+            truck.UserId = HttpContextHelper.UserId;
             truck.CreatedAt = TimeHelper.GetCurrentServerTime();
             truck.ImagePath = await _imageService.SaveImageAsync(dto.Image!);
             var res = await _locationService.CreateAsync(dto.TruckLocation);
             if (res.IsSuccessful) truck.LocationId = res.Id;
             else throw new StatusCodeException(HttpStatusCode.BadRequest, "Location is invalid");
 
-            _unitOfWork.Trucks.Add(truck);
-           var result = await _unitOfWork.SaveChangesAsync();
+            var r = await Task.Run(() => _unitOfWork.Trucks.Add(truck));
+            var result = await _unitOfWork.SaveChangesAsync();
             return result > 0;
         }
 

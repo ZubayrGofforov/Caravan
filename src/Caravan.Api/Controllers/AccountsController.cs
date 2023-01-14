@@ -1,5 +1,6 @@
 ﻿using Caravan.Service.Dtos.Accounts;
 using Caravan.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace Caravan.Api.Controllers
 {
     [Route("api/accounts")]
     [ApiController]
+    
     public class AccountsController : ControllerBase
     {
         private readonly IAccountService _accountService;
@@ -16,14 +18,15 @@ namespace Caravan.Api.Controllers
             _accountService = accountService;
         }
 
-        [HttpPost("register")]
+        [HttpPost("register"), AllowAnonymous]
+
         public async Task<IActionResult> RegisterAsync([FromForm] AccountRegisterDto registerDto)
             => Ok(await _accountService.RegisterAsync(registerDto));
 
-        [HttpPost("login")]
+        [HttpPost("login"), AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto loginDto)
             => Ok(new {Token = await _accountService.LoginAsync(loginDto)});
-            
+  
         [HttpPost("reset-password")]
         public async Task<IActionResult> ForgetPasswordAsync([FromForm]UserResetPasswordDto userResetPassword)
             => Ok(await _accountService.VerifyPasswordAsync(userResetPassword));

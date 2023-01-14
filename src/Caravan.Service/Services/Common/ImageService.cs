@@ -43,15 +43,17 @@ namespace Caravan.Service.Services.Common
             var stream = new FileStream(ImagePath, FileMode.Create);
             try
             {
-                await stream.CopyToAsync(stream);
-                return Path.Combine(images,ImageName);
+                await file.CopyToAsync(stream);
+                return Path.Combine(images, ImageName);
             }
             catch 
             {
 
                 return "";
             }
-            finally { stream.Close(); }
+            finally { 
+                stream.Close();
+            }
         }
     }
 }

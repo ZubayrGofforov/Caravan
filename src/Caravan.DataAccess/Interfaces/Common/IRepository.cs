@@ -10,7 +10,7 @@ namespace Caravan.DataAccess.Interfaces.Common
 {
     public interface IRepository<T> where T : BaseEntity 
     {
-        public void Add(T entity);
+        public T Add(T entity);
 
         public void Delete(long id);
 

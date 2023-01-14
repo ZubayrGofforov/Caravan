@@ -1,6 +1,7 @@
 ﻿using Caravan.Service.Common.Utils;
 using Caravan.Service.Dtos.Orders;
 using Caravan.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,23 +18,23 @@ namespace Caravan.Api.Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public async Task<IActionResult> GetAllAsync(int page)
             => Ok(await _service.GetAllAsync(new PaginationParams(page, _pageSize)));
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "User")]
         public async Task<IActionResult> CreateAsync([FromForm] OrderCreateDto dto)
             => Ok(await _service.CreateAsync(dto));
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize(Roles = "User")]
         public async Task<IActionResult> GetByIdAsync(long id)
             => Ok(await _service.GetAsync(id));
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "User")]
         public async Task<IActionResult> DeleteAsync(long id)
             => Ok( await _service.DeleteAsync(id));
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = "User")]
         public async Task<IActionResult> UpdateAsync(long id, [FromForm] OrderCreateDto dto)
             => Ok(await _service.UpdateAsync(id,dto));
     }
