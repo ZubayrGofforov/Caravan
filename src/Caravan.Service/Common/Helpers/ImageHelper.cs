@@ -11,7 +11,7 @@ namespace Caravan.Service.Common.Helpers
         public static string UniqueName(string fileName)
         {
             string extension = Path.GetExtension(fileName);
-            string imageName = "IMG_" + new Guid().ToString();
+            string imageName = "IMG_" + Guid.NewGuid().ToString();
             return imageName + extension;
         }
     }

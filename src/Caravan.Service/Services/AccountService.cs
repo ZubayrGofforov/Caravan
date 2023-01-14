@@ -83,6 +83,7 @@ namespace Caravan.Service.Services
             var hasherResult = PasswordHasher.Hash(registerDto.Password);
             var user = (User)registerDto;
             user.PasswordHash = hasherResult.passwordHash;
+            user.Role = Domain.Enums.UserRole.User;
             user.Salt = hasherResult.salt;
             user.CreatedAt = TimeHelper.GetCurrentServerTime();
             user.UpdatedAt = TimeHelper.GetCurrentServerTime();

@@ -14,19 +14,19 @@ namespace Caravan.Service.Services
 {
     public class LocationService : ILocationService
     {
-        private readonly AppDbContext _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public LocationService(AppDbContext unitOfWork, IMapper mapper)
+        public LocationService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task<(bool IsSuccessful,long Id)> CreateAsync(LocationCreateDto createDto)
+        public async Task<(bool IsSuccessful, long Id)> CreateAsync(LocationCreateDto createDto)
         {
             var res = _unitOfWork.Locations.Add(_mapper.Map<Location>(createDto));
             var result = await _unitOfWork.SaveChangesAsync();
-            return result > 0 ? (true,result) : (false, result);
+            return result > 0 ? (true,res.Id) : (false, res.Id);
         }
     }
 }
