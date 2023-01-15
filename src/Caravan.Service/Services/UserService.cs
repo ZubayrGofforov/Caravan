@@ -69,7 +69,7 @@ namespace Caravan.Service.Services
         {
             if (id == HttpContextHelper.UserId || HttpContextHelper.UserRole != "User") 
             {
-                var temp = await appDbContext.Users.FindAsync(HttpContextHelper.UserId);
+                var temp = await appDbContext.Users.FindAsync(id);
                 appDbContext.Entry<User>(temp!).State = EntityState.Detached;
                 if (entity is not null)
                 {
