@@ -1,6 +1,7 @@
 ﻿using Caravan.DataAccess.DbContexts;
 using Caravan.DataAccess.Interfaces.Common;
 using Caravan.Domain.Common;
+using Caravan.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,11 @@ namespace Caravan.DataAccess.Repositories.Common
         public virtual async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
         {
             return await _dbSet.FirstOrDefaultAsync(expression);
+        }
+
+        public void TrackingDeteched(T entity)
+        {
+            _dbContext.Entry<T>(entity!).State = EntityState.Detached;
         }
 
         public virtual void Update(long id, T entity)

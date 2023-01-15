@@ -19,5 +19,6 @@ namespace Caravan.DataAccess.Interfaces.Common
         public Task<T?> FindByIdAsync(long id);
 
         public Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> expression);
+        public void TrackingDeteched(T entity);
     }
 }

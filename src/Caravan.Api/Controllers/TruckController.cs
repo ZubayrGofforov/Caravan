@@ -38,5 +38,8 @@ namespace Caravan.Api.Controllers
         [HttpPut("{id}"), Authorize(Roles = "User")]
         public async Task<IActionResult> UpdateAsync(long id, [FromForm] TruckCreateDto truckCreateDto)
             => Ok(await _service.UpdateAsync(id, truckCreateDto));
+        [HttpPatch("{id}"),]
+        public async Task<IActionResult> UpdateStatusAsync(long id,TruckStatusDto status)
+            => Ok(await _service.TruckStatusUpdateAsync(id, status));
     }
 }

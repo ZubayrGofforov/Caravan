@@ -21,6 +21,9 @@ namespace Caravan.Service.Interfaces
 
         public Task<bool> CreateAsync(TruckCreateDto dto);
 
+        public Task<bool> TruckStatusUpdateAsync(long id, TruckStatusDto dto);
+        
         public Task<bool> UpdateAsync(long id, TruckUpdateDto updateDto);
+
     }
 }
