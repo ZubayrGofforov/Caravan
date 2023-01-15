@@ -38,6 +38,10 @@ builder.Services.AddScoped<ITruckService, TruckService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddMemoryCache();
+builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
+{
+    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
 
 builder.Services.ConfigureSwaggerAuthorize();
 //database
@@ -61,7 +65,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("corspolicy");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
