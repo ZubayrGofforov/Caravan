@@ -66,6 +66,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwaggerUI();
 }
 app.UseCors("corspolicy");
+app.Urls.Add("http://http://194.187.122.221:80");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
