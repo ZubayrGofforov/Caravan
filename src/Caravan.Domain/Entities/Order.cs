@@ -26,6 +26,6 @@ namespace Caravan.Domain.Entities
         public virtual Location TakenLocation { get; set; } = default!;
 
         public long DeliveryLocationId { get; set; }
-        public virtual Location DeliveryLocation { get;} = default!;
+        public virtual Location DeliveryLocation { get; set; } = default!;
     }
 }

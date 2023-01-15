@@ -13,7 +13,7 @@ namespace Caravan.Service.Interfaces
 {
     public interface IOrderService
     {
-        public Task<IEnumerable<Order>> GetAllAsync(PaginationParams @paginationParams);
+        public Task<IEnumerable<OrderViewModel>> GetAllAsync(PaginationParams @paginationParams);
         public Task<OrderViewModel> GetAsync(long id);
         public Task<bool> UpdateAsync(long id,OrderCreateDto updateDto);
         public Task<bool> DeleteAsync(long id);
