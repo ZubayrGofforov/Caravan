@@ -110,11 +110,11 @@ namespace Caravan.Service.Services
     
         public async Task<bool> UpdateAsync(long id, TruckUpdateDto updateDto)
         {
-            if(HttpContextHelper.UserId == id)
-            {
-                var truck = await _unitOfWork.Trucks.FindByIdAsync(id);
-                if (truck is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Truck not found");
+            var truck = await _unitOfWork.Trucks.FindByIdAsync(id);
+            if (truck is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Truck not found");
 
+            if(HttpContextHelper.UserId == id || HttpContextHelper.UserRole != "User")
+            {
                 var updateTruck = _mapper.Map<Truck>(updateDto);
 
                 if (updateDto.Image is not null)
@@ -128,6 +128,7 @@ namespace Caravan.Service.Services
                 return result > 0;
             }
             else throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
+            
         }
     }
 }
