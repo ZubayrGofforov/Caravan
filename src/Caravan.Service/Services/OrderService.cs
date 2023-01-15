@@ -100,23 +100,27 @@ namespace Caravan.Service.Services
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
         }
 
-        public async Task<bool> UpdateAsync(long id, OrderCreateDto updateDto)
+        public async Task<bool> UpdateAsync(long id, OrderUpdateDto updateDto)
         {
-            var order = await _unitOfWork.Orders.FindByIdAsync(id);
-            if (order is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
-
-            var updateOrder = _mapper.Map<Order>(updateDto);
-
-            if(updateDto.Image is not null)
+            if(HttpContextHelper.UserId== id)
             {
-                await _imageService.DeleteImageAsync(order.ImagePath!);
-                updateOrder.ImagePath = await _imageService.SaveImageAsync(updateDto.Image);
-            }
-            updateOrder.Id = id;
+                var order = await _unitOfWork.Orders.FindByIdAsync(id);
+                if (order is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
 
-            _unitOfWork.Orders.Update(id, updateOrder);
-            var result = await _unitOfWork.SaveChangesAsync();
-            return result > 0;
+                var updateOrder = _mapper.Map<Order>(updateDto);
+
+                if(updateDto.Image is not null)
+                {
+                    await _imageService.DeleteImageAsync(order.ImagePath!);
+                    updateOrder.ImagePath = await _imageService.SaveImageAsync(updateDto.Image);
+                }
+                updateOrder.Id = id;
+
+                _unitOfWork.Orders.Update(id, updateOrder);
+                var result = await _unitOfWork.SaveChangesAsync();
+                return result > 0;
+            }
+            else throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
         }
     }
 }
