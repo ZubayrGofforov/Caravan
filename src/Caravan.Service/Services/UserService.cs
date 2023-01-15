@@ -2,6 +2,7 @@
 using Caravan.DataAccess.DbContexts;
 using Caravan.DataAccess.Interfaces.Common;
 using Caravan.Domain.Entities;
+using Caravan.Domain.Enums;
 using Caravan.Service.Common.Exceptions;
 using Caravan.Service.Common.Helpers;
 using Caravan.Service.Common.Utils;
@@ -65,26 +66,30 @@ namespace Caravan.Service.Services
 
         public async Task<bool> UpdateAsync(long id, UserUpdateDto entity)
         {
-            var temp = await appDbContext.Users.FindAsync(id);
-            appDbContext.Entry<User>(temp!).State = EntityState.Detached;
-            if (entity is not null)
+            if (id == HttpContextHelper.UserId || HttpContextHelper.UserRole !=  UserRole.User) 
             {
-                var res = mapper.Map<User>(entity);
-                res.Id= id;
-                res.PasswordHash = temp!.PasswordHash;
-                res.Salt = temp.Salt;
-                res.Email = temp.Email;
-                res.FirstName = string.IsNullOrWhiteSpace(entity.FirstName) ? temp.FirstName : entity.FirstName;
-                res.LastName = string.IsNullOrWhiteSpace(entity.LastName) ? temp.LastName : entity.LastName;
-                res.Address = string.IsNullOrWhiteSpace(entity.Address) ? temp.Address : entity.Address;
-                res.PhoneNumber = string.IsNullOrWhiteSpace(entity.PhoneNumber) ? temp.PhoneNumber : entity.PhoneNumber;
-                res.CreatedAt = temp.CreatedAt;
-                res.UpdatedAt = TimeHelper.GetCurrentServerTime();
-                appDbContext.Users.Update(res);
-                var result = await appDbContext.SaveChangesAsync();
-                return result > 0;
-            }        
-            else throw new StatusCodeException(System.Net.HttpStatusCode.NotFound, "User not found");
+                var temp = await appDbContext.Users.FindAsync(HttpContextHelper.UserId);
+                appDbContext.Entry<User>(temp!).State = EntityState.Detached;
+                if (entity is not null)
+                {
+                    var res = mapper.Map<User>(entity);
+                    res.Id = HttpContextHelper.UserId;
+                    res.PasswordHash = temp!.PasswordHash;
+                    res.Salt = temp.Salt;
+                    res.Email = temp.Email;
+                    res.FirstName = string.IsNullOrWhiteSpace(entity.FirstName) ? temp.FirstName : entity.FirstName;
+                    res.LastName = string.IsNullOrWhiteSpace(entity.LastName) ? temp.LastName : entity.LastName;
+                    res.Address = string.IsNullOrWhiteSpace(entity.Address) ? temp.Address : entity.Address;
+                    res.PhoneNumber = string.IsNullOrWhiteSpace(entity.PhoneNumber) ? temp.PhoneNumber : entity.PhoneNumber;
+                    res.CreatedAt = temp.CreatedAt;
+                    res.UpdatedAt = TimeHelper.GetCurrentServerTime();
+                    appDbContext.Users.Update(res);
+                    var result = await appDbContext.SaveChangesAsync();
+                    return result > 0;
+                }
+                else throw new StatusCodeException(System.Net.HttpStatusCode.NotFound, "User not found");
+            }
+            else throw new StatusCodeException(System.Net.HttpStatusCode.BadRequest, "Not allowed");
         }
     }
 }
