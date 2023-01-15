@@ -10,6 +10,7 @@ namespace Caravan.Service.ViewModels
 {
     public class TruckViewModel
     {
+        public long Id { get; set; }
         public string Name { get; set; } = string.Empty;
 
         public string? ImagePath { get; set; }
@@ -23,6 +24,7 @@ namespace Caravan.Service.ViewModels
         public string TruckNumber { get; set; } = string.Empty;
         
         public UserViewModel User { get; set; } = default!;
+        
         public LocationViewModel TruckLocation { get; set; } = default!;
     }
 }

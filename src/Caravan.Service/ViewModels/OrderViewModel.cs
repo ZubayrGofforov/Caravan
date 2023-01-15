@@ -10,6 +10,7 @@ namespace Caravan.Service.ViewModels
 {
     public class OrderViewModel
     {
+        public long Id { get; set; }
         public string Name { get; set; } = string.Empty;
 
         public string? ImagePath { get; set; }
