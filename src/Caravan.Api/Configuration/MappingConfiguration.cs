@@ -21,12 +21,9 @@ namespace Caravan.Api.Configuration
             CreateMap<LocationCreateDto, Location>().ReverseMap();
             CreateMap<LocationViewModel, Location>().ReverseMap();
             CreateMap<UserUpdateDto, User>();
-<<<<<<< HEAD
             CreateMap<TruckStatusDto, Truck>().ReverseMap();
-=======
             CreateMap<OrderUpdateDto, Order>();
             CreateMap<TruckUpdateDto, Truck>();
->>>>>>> 3421b32 (update)
         }
     }
 }
