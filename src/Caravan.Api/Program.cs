@@ -38,10 +38,10 @@ builder.Services.AddScoped<ITruckService, TruckService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddMemoryCache();
-//builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
-//{
-//    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
-//}));
+builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
+{
+    build.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));
 
 builder.Services.ConfigureSwaggerAuthorize();
 //database
@@ -56,6 +56,7 @@ builder.Services.AddAutoMapper(typeof(MappingConfiguration));
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseStaticFiles();
+app.UseCors("corspolicy");
 
 if (app.Services.GetService<IHttpContextAccessor>() != null)
     HttpContextHelper.Accessor = app.Services.GetRequiredService<IHttpContextAccessor>();
@@ -67,7 +68,6 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 }
 app.UseHttpsRedirection();
 app.UseAuthentication();
-app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
 
