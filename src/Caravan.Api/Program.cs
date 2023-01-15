@@ -10,11 +10,6 @@ using Caravan.Service.Interfaces.Common;
 using Caravan.Service.Interfaces.Security;
 using Caravan.Service.Services;
 using Caravan.Service.Services.Common;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 //-> Services
 var builder = WebApplication.CreateBuilder(args);
@@ -54,19 +49,19 @@ builder.Services.AddAutoMapper(typeof(MappingConfiguration));
 
 //Middlewares
 var app = builder.Build();
-app.UseMiddleware<ExceptionHandlerMiddleware>();
-app.UseStaticFiles();
-app.UseCors("corspolicy");
-
-if (app.Services.GetService<IHttpContextAccessor>() != null)
-    HttpContextHelper.Accessor = app.Services.GetRequiredService<IHttpContextAccessor>();
-
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHttpsRedirection();
+app.UseCors("corspolicy");
+app.UseStaticFiles();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+if (app.Services.GetService<IHttpContextAccessor>() != null)
+    HttpContextHelper.Accessor = app.Services.GetRequiredService<IHttpContextAccessor>();
+
+//app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
