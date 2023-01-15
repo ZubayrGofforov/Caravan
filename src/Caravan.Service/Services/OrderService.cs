@@ -102,7 +102,7 @@ namespace Caravan.Service.Services
 
         public async Task<bool> UpdateAsync(long id, OrderUpdateDto updateDto)
         {
-            if(HttpContextHelper.UserId== id)
+            if(HttpContextHelper.UserId == id || HttpContextHelper.UserRole != "User")
             {
                 var order = await _unitOfWork.Orders.FindByIdAsync(id);
                 if (order is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
