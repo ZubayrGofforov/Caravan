@@ -8,7 +8,7 @@ namespace Caravan.Domain.Enums
 {
     public enum UserRole
     {
-        User = 0,
-        Admin = 1
+        User = 1,
+        Admin
     }
 }

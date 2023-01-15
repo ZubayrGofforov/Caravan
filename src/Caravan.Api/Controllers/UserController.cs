@@ -2,6 +2,7 @@
 using Caravan.Service.Dtos.Users;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,19 +23,19 @@ namespace Caravan.Api.Controllers
             this._paginatorService = paginatorService;
         }
 
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public async Task<IActionResult> GetAllAsync(int page)
             => Ok(await service.GetAllAysnc(new PaginationParams(page, _pageSize)));
 
-        [HttpGet ("{id}")]
+        [HttpGet ("{id}"), AllowAnonymous ]
         public async Task<IActionResult> GetAsync(long id)
             => Ok(await service.GetAsync(id));
         
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "User")]
         public async Task<IActionResult> DeleteAsync(long id)
             => Ok(await service.DeleteAsync(id));
         
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = "User")]
         public async Task<IActionResult> UpdateAsync(long id, [FromBody] UserUpdateDto dto)
             => Ok(await service.UpdateAsync(id, dto));
     }

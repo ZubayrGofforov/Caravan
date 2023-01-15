@@ -26,27 +26,36 @@ namespace Caravan.Service.Services
         private readonly IPaginatorService _paginator;
         private readonly IMapper _mapper;
         private readonly IImageService _imageService;
-        public OrderService(IUnitOfWork dbContext, IPaginatorService paginatorService, IMapper mapper, IImageService imageService)
+        private readonly ILocationService _locationService;
+        public OrderService(IUnitOfWork dbContext, IPaginatorService paginatorService, IMapper mapper, IImageService imageService, ILocationService locationService)
         {
             this._unitOfWork = dbContext;
             this._paginator = paginatorService;
             this._mapper = mapper;
             this._imageService = imageService;
+            _locationService = locationService;
         }
 
         public async Task<bool> CreateAsync(OrderCreateDto createDto)
         {
-            var user = await _unitOfWork.Users.FindByIdAsync(createDto.UserId);
+            var user = await _unitOfWork.Users.FindByIdAsync(HttpContextHelper.UserId);
             if (user is null) throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
 
             var order = _mapper.Map<Order>(createDto);
+            order.UserId = HttpContextHelper.UserId;
             order.CreatedAt = TimeHelper.GetCurrentServerTime();
             order.UpdatedAt = TimeHelper.GetCurrentServerTime();
             order.ImagePath = await _imageService.SaveImageAsync(createDto.Image!);
 
-            //var res = await _unitOfWork.Locations.Add(_mapper.Map<Location>(createDto.CurrentlyLocation));
+            var resultTaken = await _locationService.CreateAsync(createDto.CurrentlyLocation);
+            if (resultTaken.IsSuccessful) order.TakenLocationId = resultTaken.Id;
+            else throw new StatusCodeException(HttpStatusCode.BadRequest, "Location is invalid");
 
-            _unitOfWork.Orders.Add(order);
+            var resultDelivery = await _locationService.CreateAsync(createDto.TransferLocation);
+            if(resultDelivery.IsSuccessful) order.DeliveryLocationId = resultDelivery.Id;
+            else throw new StatusCodeException(HttpStatusCode.BadRequest, "Location is invalid");
+
+            var r = await Task.Run(() => _unitOfWork.Orders.Add(order));
             var result = await _unitOfWork.SaveChangesAsync();
             return result > 0;
         }

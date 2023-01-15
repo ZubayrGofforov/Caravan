@@ -28,10 +28,11 @@ namespace Caravan.Service.Dtos.Orders
         [Required]
         public bool IsTaken { get; set; } = false;
 
-        [Required]
-        public long UserId { get; set; }
 
-        public LocationCreateDto? CurrentlyLocation { get; set; }
-        public LocationCreateDto? TransferLocation { get; set; }
+        [Required]
+        public LocationCreateDto CurrentlyLocation { get; set; } = default!;
+
+        [Required]
+        public LocationCreateDto TransferLocation { get; set; } = default!;
     }
 }

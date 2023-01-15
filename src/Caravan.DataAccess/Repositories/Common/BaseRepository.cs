@@ -22,7 +22,7 @@ namespace Caravan.DataAccess.Repositories.Common
             _dbSet = dbContext.Set<T>();
         }
 
-        public virtual void Add(T entity) => _dbSet.Add(entity) ;
+        public virtual T Add(T entity) => _dbSet.Add(entity).Entity ;
 
         public virtual void Delete(long id)
         {

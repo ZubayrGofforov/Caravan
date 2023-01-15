@@ -24,6 +24,6 @@ namespace Caravan.Domain.Entities
 
         public string Salt { get; set; } = string.Empty;
 
-        public UserRole Role { get; set; } = UserRole.User;
+        public UserRole Role { get; set; }
     }
 }

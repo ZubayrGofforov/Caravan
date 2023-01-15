@@ -13,7 +13,6 @@ namespace Caravan.DataAccess.Repositories.Common
     public class GenericRepository<T> : BaseRepository<T>, IGenericRepository<T>
         where T : BaseEntity
     {
-
         public GenericRepository(AppDbContext appDbContext)
             :base(appDbContext)
         {
