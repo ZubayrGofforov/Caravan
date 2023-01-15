@@ -19,7 +19,7 @@ public class HttpContextHelper
     public static HttpContext HttpContext => Accessor?.HttpContext;
     public static long UserId => GetUserId();
 
-    public static UserRole? UserRole => GetUserRole();
+    public static string UserRole => HttpContext?.User.FindFirst("UserRole")?.Value;
     private static long GetUserId()
     {
         long id;
@@ -27,9 +27,5 @@ public class HttpContextHelper
         return canParse ? id : 0;
     }
 
-    public static UserRole? GetUserRole()
-    {
-        var res = HttpContext!.User?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).ToString();
-        return res is not null ? Enum.Parse<UserRole>(res) : null;
-    }
+    
 }

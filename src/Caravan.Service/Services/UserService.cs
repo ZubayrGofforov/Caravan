@@ -66,7 +66,7 @@ namespace Caravan.Service.Services
 
         public async Task<bool> UpdateAsync(long id, UserUpdateDto entity)
         {
-            if (id == HttpContextHelper.UserId || HttpContextHelper.UserRole !=  UserRole.User) 
+            if (id == HttpContextHelper.UserId || HttpContextHelper.UserRole != "User") 
             {
                 var temp = await appDbContext.Users.FindAsync(HttpContextHelper.UserId);
                 appDbContext.Entry<User>(temp!).State = EntityState.Detached;
