@@ -24,7 +24,7 @@ namespace Caravan.Api.Controllers
             this._paginatorService = paginatorService;
         }
 
-        [HttpGet, AllowAnonymous]
+        [HttpGet,Authorize(Roles ="User")]
         public async Task<IActionResult> GetAllAsync(int page)
             => Ok(await service.GetAllAysnc(new PaginationParams(page, _pageSize)));
 
@@ -36,8 +36,7 @@ namespace Caravan.Api.Controllers
         public async Task<IActionResult> DeleteAsync(long id)
             => Ok(await service.DeleteAsync(id));
         
-        [HttpPut, Authorize(Roles = "User")]
-
+        [HttpPut]
         public async Task<IActionResult> UpdateAsync(long id,[FromBody] UserUpdateDto dto)
             => Ok(await service.UpdateAsync( id,dto));
     }

@@ -87,6 +87,26 @@ namespace Caravan.Service.Services
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Track not found");
         }
 
+        public async Task<bool> TruckStatusUpdateAsync(long id, TruckStatusDto dto)
+        {
+            var truck = await _unitOfWork.Trucks.FindByIdAsync(id);
+            if (truck is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Truck not found");
+
+            if (truck.UserId == HttpContextHelper.UserId || HttpContextHelper.UserRole != "User")
+            {
+                _unitOfWork.Trucks.TrackingDeteched(truck);
+                truck.IsEmpty = dto.IsEmpty;
+                _unitOfWork.Trucks.Update(id, truck);
+                var res = await _unitOfWork.SaveChangesAsync();
+                return res > 0;
+
+            }
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
+
+            
+        }
+
         public async Task<bool> UpdateAsync(long id, TruckCreateDto updateDto)
         {
             var truck = await _unitOfWork.Trucks.FindByIdAsync(id);
