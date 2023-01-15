@@ -1,4 +1,5 @@
-﻿using Caravan.Service.Common.Utils;
+﻿using Caravan.Service.Common.Helpers;
+using Caravan.Service.Common.Utils;
 using Caravan.Service.Dtos.Users;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
@@ -35,8 +36,9 @@ namespace Caravan.Api.Controllers
         public async Task<IActionResult> DeleteAsync(long id)
             => Ok(await service.DeleteAsync(id));
         
-        [HttpPut("{id}"), Authorize(Roles = "User")]
-        public async Task<IActionResult> UpdateAsync(long id, [FromBody] UserUpdateDto dto)
-            => Ok(await service.UpdateAsync(id, dto));
+        [HttpPut, Authorize(Roles = "User")]
+
+        public async Task<IActionResult> UpdateAsync(long id,[FromBody] UserUpdateDto dto)
+            => Ok(await service.UpdateAsync( id,dto));
     }
 }

@@ -56,7 +56,7 @@ namespace Caravan.Service.Services
 
         public async Task<bool> PasswordUpdateAsync(PasswordUpdateDto passwordUpdateDto)
         {
-            var user = await _repository.Users.FindByIdAsync(3);
+            var user = await _repository.Users.FindByIdAsync(HttpContextHelper.UserId);
             if (user is not null)
             {
                 var result = PasswordHasher.Verify(passwordUpdateDto.OldPassword, user.Salt, user.PasswordHash);
