@@ -87,23 +87,26 @@ namespace Caravan.Service.Services
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Track not found");
         }
 
-        public async Task<bool> UpdateAsync(long id, TruckCreateDto updateDto)
+        public async Task<bool> UpdateAsync(long id, TruckUpdateDto updateDto)
         {
-            var truck = await _unitOfWork.Trucks.FindByIdAsync(id);
-            if (truck is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Truck not found");
-
-            var updateTruck = _mapper.Map<Truck>(updateDto);
-
-            if (updateDto.Image is not null)
+            if(HttpContextHelper.UserId == id)
             {
-                await _imageService.DeleteImageAsync(truck.ImagePath!);
-                updateTruck.ImagePath = await _imageService.SaveImageAsync(updateDto.Image);
-            }
-            updateTruck.Id = id;
+                var truck = await _unitOfWork.Trucks.FindByIdAsync(id);
+                if (truck is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Truck not found");
 
-            _unitOfWork.Trucks.Update(id, updateTruck);
-            var result = await _unitOfWork.SaveChangesAsync();
-            return result > 0;
+                var updateTruck = _mapper.Map<Truck>(updateDto);
+
+                if (updateDto.Image is not null)
+                {
+                    await _imageService.DeleteImageAsync(truck.ImagePath!);
+                    updateTruck.ImagePath = await _imageService.SaveImageAsync(updateDto.Image);
+                }
+
+                _unitOfWork.Trucks.Update(id, updateTruck);
+                var result = await _unitOfWork.SaveChangesAsync();
+                return result > 0;
+            }
+            else throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
         }
     }
 }
