@@ -38,10 +38,10 @@ builder.Services.AddScoped<ITruckService, TruckService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddMemoryCache();
-builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
-{
-    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
-}));
+//builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
+//{
+//    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+//}));
 
 builder.Services.ConfigureSwaggerAuthorize();
 //database
@@ -65,10 +65,9 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("corspolicy");
-app.Urls.Add("http://http://194.187.122.221:80");
 app.UseHttpsRedirection();
 app.UseAuthentication();
+app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
 
