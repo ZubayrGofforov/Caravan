@@ -71,9 +71,10 @@ namespace Caravan.Service.Services
             return res > 0;
         }
 
-        public async Task<IEnumerable<Truck>> GetAllAsync(PaginationParams @paginationParams)
+        public async Task<IEnumerable<TruckViewModel>> GetAllAsync(PaginationParams @paginationParams)
         {
-            var query = _unitOfWork.Trucks.GetAll().OrderBy(x => x.CreatedAt);
+            var query = _unitOfWork.Trucks.GetAll().OrderBy(x => x.CreatedAt)
+                .ToList().ConvertAll(x => _mapper.Map<TruckViewModel>(x));
             var data = await _paginator.ToPagedAsync(query, @paginationParams.PageNumber, @paginationParams.PageSize);
             return data;
         }

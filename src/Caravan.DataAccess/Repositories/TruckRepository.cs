@@ -19,9 +19,15 @@ namespace Caravan.DataAccess.Repositories
         }
         public override async Task<Truck?> FindByIdAsync(long id)
         {
-            var res = await _dbContext.Trucks.Include(x => x.User).FirstOrDefaultAsync(x => x.Id== id);
+            var res = await _dbContext.Trucks.Include(x => x.User).Include(x => x.TruckLocation).FirstOrDefaultAsync(x => x.Id== id);
             if (res is null) return null; 
             return res;
+        }
+
+        public override IQueryable<Truck> GetAll()
+        {
+            var query = _dbContext.Trucks.Include(x => x.User).Include(x => x.TruckLocation).OrderByDescending(x => x.CreatedAt); 
+            return query;
         }
 
     }

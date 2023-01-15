@@ -11,6 +11,7 @@ using Caravan.Service.Dtos.Orders;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
 using Caravan.Service.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,9 +76,10 @@ namespace Caravan.Service.Services
 
         }
 
-        public async Task<IEnumerable<Order>> GetAllAsync(PaginationParams @paginationParams)
+        public async Task<IEnumerable<OrderViewModel>> GetAllAsync(PaginationParams @paginationParams)
         {
-            var query = _unitOfWork.Orders.GetAll().OrderBy(x => x.CreatedAt);
+            var query = _unitOfWork.Orders.GetAll().OrderBy(x => x.CreatedAt)
+                .AsNoTracking().ToList().ConvertAll(x => _mapper.Map<OrderViewModel>(x));
             var data = await _paginator.ToPagedAsync(query, @paginationParams.PageNumber, @paginationParams.PageSize);
             return data;
         }

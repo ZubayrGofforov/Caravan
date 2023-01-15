@@ -24,6 +24,6 @@ namespace Caravan.Service.ViewModels
 
         public LocationViewModel TakenLocation { get; set; } = default!;
 
-        public LocationViewModel DeliveryLocation { get; } = default!;
+        public LocationViewModel DeliveryLocation { get; set; } = default!;
     }
 }

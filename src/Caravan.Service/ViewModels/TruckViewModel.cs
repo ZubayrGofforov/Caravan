@@ -1,4 +1,5 @@
-﻿using Caravan.Domain.Entities;
+﻿using Caravan.Domain.Common;
+using Caravan.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,6 @@ namespace Caravan.Service.ViewModels
         public string TruckNumber { get; set; } = string.Empty;
         
         public UserViewModel User { get; set; } = default!;
+        public LocationViewModel TruckLocation { get; set; } = default!;
     }
 }

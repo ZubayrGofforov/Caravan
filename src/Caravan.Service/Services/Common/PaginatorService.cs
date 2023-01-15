@@ -20,9 +20,9 @@ namespace Caravan.Service.Services.Common
             this._accessor = accessor;
         }
 
-        public async Task<IList<T>> ToPagedAsync<T>(IQueryable<T> items, int pageNumber, int pageSize)
+        public async Task<IList<T>> ToPagedAsync<T>(IList<T> items, int pageNumber, int pageSize)
         {
-            int totalItems = await items.CountAsync();
+            int totalItems = items.Count();
             PaginationMetaData paginationMetaData = new PaginationMetaData()
             {
                 CurrentPage = pageNumber,
@@ -36,9 +36,8 @@ namespace Caravan.Service.Services.Common
             string json = JsonConvert.SerializeObject(paginationMetaData);
             _accessor.HttpContext!.Response.Headers.Add("X-Pagination", json);
 
-            return await items.Skip(pageNumber * pageSize - pageSize)
-                              .Take(pageSize)
-                              .ToListAsync();
+            return items.Skip(pageNumber * pageSize - pageSize)
+                              .Take(pageSize).ToList();
         }
     }
 }
