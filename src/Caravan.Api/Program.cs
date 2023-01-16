@@ -10,11 +10,6 @@ using Caravan.Service.Interfaces.Common;
 using Caravan.Service.Interfaces.Security;
 using Caravan.Service.Services;
 using Caravan.Service.Services.Common;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 //-> Services
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +33,10 @@ builder.Services.AddScoped<ITruckService, TruckService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddMemoryCache();
+builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
+{
+    build.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));
 
 builder.Services.ConfigureSwaggerAuthorize();
 //database
@@ -50,19 +49,19 @@ builder.Services.AddAutoMapper(typeof(MappingConfiguration));
 
 //Middlewares
 var app = builder.Build();
-app.UseMiddleware<ExceptionHandlerMiddleware>();
-app.UseStaticFiles();
-
-if (app.Services.GetService<IHttpContextAccessor>() != null)
-    HttpContextHelper.Accessor = app.Services.GetRequiredService<IHttpContextAccessor>();
-
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors("corspolicy");
+app.UseStaticFiles();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
-app.UseHttpsRedirection();
+if (app.Services.GetService<IHttpContextAccessor>() != null)
+    HttpContextHelper.Accessor = app.Services.GetRequiredService<IHttpContextAccessor>();
+
+//app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

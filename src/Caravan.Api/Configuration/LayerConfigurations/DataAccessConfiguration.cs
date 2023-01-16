@@ -9,7 +9,7 @@ namespace Caravan.Api.Configuration.LayerConfigurations
     {
         public static void ConfigureDataAccess(this WebApplicationBuilder builder)
         {
-            string connectionString = builder.Configuration.GetConnectionString("DatabaseConnection");
+            string connectionString = builder.Configuration.GetConnectionString("DatabaseConnection")!;
             builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
