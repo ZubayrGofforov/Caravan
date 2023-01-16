@@ -20,7 +20,7 @@ namespace Caravan.DataAccess.Repositories.Common
         }
         public virtual IQueryable<T> GetAll() => _dbSet;
 
-        public IQueryable<T> Where(Expression<Func<T, bool>> expression)
+        public virtual IQueryable<T> Where(Expression<Func<T, bool>> expression)
             => _dbSet.Where(expression);
     }
 }
