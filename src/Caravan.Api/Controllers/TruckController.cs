@@ -29,26 +29,28 @@ namespace Caravan.Api.Controllers
         public async Task<IActionResult> CreateAsync([FromForm] TruckCreateDto dto)
             => Ok(await _service.CreateAsync(dto));
 
-        [HttpGet("{Truckid}"), Authorize(Roles = "User")]
-        public async Task<IActionResult> GetByIdAsync(long id)
-            => Ok(await _service.GetAsync(id));
+        [HttpGet("{truckId}"), Authorize(Roles = "User")]
+        public async Task<IActionResult> GetByIdAsync(long truckId)
+            => Ok(await _service.GetAsync(truckId));
 
-        [HttpDelete("{Truckid}"), Authorize(Roles = "User")]
-        public async Task<IActionResult> DeleteAsync(long id)
-            => Ok(await _service.DeleteAsync(id));
+        [HttpDelete("{truckId}"), Authorize(Roles = "User")]
+        public async Task<IActionResult> DeleteAsync(long truckId)
+            => Ok(await _service.DeleteAsync(truckId));
 
-        [HttpPatch("{Truckid}"), Authorize(Roles = "User")]
-        public async Task<IActionResult> UpdateStatusAsync(long id,TruckStatusDto status)
-            => Ok(await _service.TruckStatusUpdateAsync(id, status));
+        [HttpPatch("{truckId}/updatestatus"), Authorize(Roles = "User")]
+        public async Task<IActionResult> UpdateStatusAsync(long truckId, TruckStatusDto status)
+            => Ok(await _service.TruckStatusUpdateAsync(truckId, status));
 
-        [HttpPut("{Truckid}"), Authorize(Roles = "User")]
-        public async Task<IActionResult> UpdateAsync(long id, [FromForm] TruckUpdateDto truckUpdateDto)
-            => Ok(await _service.UpdateAsync(id, truckUpdateDto));
-        [HttpPatch, Authorize(Roles ="User")]
+        [HttpPut("{truckId}"), Authorize(Roles = "User")]
+        public async Task<IActionResult> UpdateAsync(long truckId, [FromForm] TruckUpdateDto truckUpdateDto)
+            => Ok(await _service.UpdateAsync(truckId, truckUpdateDto));
+
+        [HttpPatch("{truckId}/updatelocation"), Authorize(Roles ="User")]
         public async Task<IActionResult> UpdateLocationAsync(long id, LocationCreateDto dto)
             => Ok(await _service.UpdateLocationAsync(id, dto));
-        [HttpGet("{Userid}")]
-        public async Task<IActionResult> GetAllByIdAsync(long id, [FromQuery]int page)
-            => Ok(await _service.GetAllByIdAsync(id, new PaginationParams(page, pageSize)));
+
+        [HttpGet("allbyid/{userId}")]
+        public async Task<IActionResult> GetAllByIdAsync(long userId, [FromQuery]int page)
+            => Ok(await _service.GetAllByIdAsync(userId, new PaginationParams(page, pageSize)));
     }
 }
