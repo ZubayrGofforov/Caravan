@@ -110,9 +110,8 @@ namespace Caravan.Service.Services
                 _unitOfWork.Trucks.Update(id, truck);
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res > 0;
-
             }
-                throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");         
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
         }
         public async Task<bool> UpdateAsync(long id, TruckUpdateDto updateDto)
         {

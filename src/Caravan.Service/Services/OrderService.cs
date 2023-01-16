@@ -137,5 +137,23 @@ namespace Caravan.Service.Services
             }
             else throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
         }
+
+        public async Task<bool> UpdateStatusAsync(long id, OrderStatusDto dto)
+        {
+            var order = await _unitOfWork.Orders.FindByIdAsync(id);
+            if (order is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
+
+            if (order.UserId == HttpContextHelper.UserId || HttpContextHelper.UserRole != "User")
+            {
+                _unitOfWork.Orders.TrackingDeteched(order);
+                order.IsTaken = dto.IsTaken;
+                _unitOfWork.Orders.Update(id, order);
+                var res = await _unitOfWork.SaveChangesAsync();
+                return res > 0;
+            }
+
+            throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
+        }
     }
 }
