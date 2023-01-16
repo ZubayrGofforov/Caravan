@@ -39,11 +39,11 @@ namespace Caravan.Api.Controllers
         public async Task<IActionResult> UpdateAsync(long orderId, [FromForm] OrderUpdateDto dto)
             => Ok(await _service.UpdateAsync(orderId,dto));
 
-        [HttpPatch("{orderId}"), Authorize(Roles = "User")]
+        [HttpPatch("{orderId}/updateStatus"), Authorize(Roles = "User")]
         public async Task<IActionResult> UpdateStatusAsync(long orderId, [FromForm] OrderStatusDto dto)
             => Ok(await _service.UpdateStatusAsync(orderId, dto));
 
-        [HttpGet("allbyid")]
+        [HttpGet("allbyid/{userId}")]
         public async Task<IActionResult> GetAllByIdAsync(long userId, [FromQuery] int page)
             => Ok(await _service.GetAllByIdAsync(userId, new PaginationParams(page, _pageSize)));
     }
