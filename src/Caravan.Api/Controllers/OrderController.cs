@@ -1,5 +1,6 @@
 ﻿using Caravan.Service.Common.Utils;
 using Caravan.Service.Dtos.Orders;
+using Caravan.Service.Dtos.Trucks;
 using Caravan.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -37,5 +38,9 @@ namespace Caravan.Api.Controllers
         [HttpPut("{id}"), Authorize(Roles = "User")]
         public async Task<IActionResult> UpdateAsync(long id, [FromForm] OrderUpdateDto dto)
             => Ok(await _service.UpdateAsync(id,dto));
+
+        [HttpPatch("{id}"), Authorize(Roles = "User")]
+        public async Task<IActionResult> UpdateStatusAsync(long id, [FromForm] OrderStatusDto dto)
+            => Ok(await _service.UpdateStatusAsync(id, dto));
     }
 }

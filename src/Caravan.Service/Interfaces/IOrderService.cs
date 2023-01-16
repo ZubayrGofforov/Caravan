@@ -18,5 +18,6 @@ namespace Caravan.Service.Interfaces
         public Task<bool> UpdateAsync(long id,OrderUpdateDto updateDto);
         public Task<bool> DeleteAsync(long id);
         public Task<bool> CreateAsync(OrderCreateDto createDto);
+        public Task<bool> UpdateStatusAsync(long id, OrderStatusDto dto);
     }
 }
