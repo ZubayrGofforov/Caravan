@@ -47,8 +47,8 @@ namespace Caravan.Api.Controllers
         [HttpPatch, Authorize(Roles ="User")]
         public async Task<IActionResult> UpdateLocationAsync(long id, LocationCreateDto dto)
             => Ok(await _service.UpdateLocationAsync(id, dto));
-        [HttpGet("{id},{page}")]
-        public async Task<IActionResult> GetAllByIdAsync(long id, int page)
+        [HttpGet("TruckId")]
+        public async Task<IActionResult> GetAllByIdAsync(long id, [FromQuery]int page)
             => Ok(await _service.GetAllByIdAsync(id, new PaginationParams(page, pageSize)));
     }
 }
