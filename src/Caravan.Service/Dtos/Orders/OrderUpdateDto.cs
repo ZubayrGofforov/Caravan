@@ -12,6 +12,7 @@ namespace Caravan.Service.Dtos.Orders
 {
     public class OrderUpdateDto
     {
+
         [Required(ErrorMessage = "Please enter valid name")]
         [MaxLength(50), MinLength(3)]
         public string Name { get; set; } = string.Empty;

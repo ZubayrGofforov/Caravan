@@ -102,21 +102,36 @@ namespace Caravan.Service.Services
 
         public async Task<bool> UpdateAsync(long id, OrderUpdateDto updateDto)
         {
-            if(HttpContextHelper.UserId == id || HttpContextHelper.UserRole != "User")
+            var order = await _unitOfWork.Orders.FindByIdAsync(id);
+            if (order is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
+
+            if(HttpContextHelper.UserId == order.UserId || HttpContextHelper.UserRole != "User")
             {
-                var order = await _unitOfWork.Orders.FindByIdAsync(id);
-                if (order is null) throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
+                _unitOfWork.Orders.TrackingDeteched(order);
 
-                var updateOrder = _mapper.Map<Order>(updateDto);
+                order.Name = updateDto.Name;
+                order.Size = updateDto.Size;
+                order.Weight = updateDto.Weight;
+                order.Id = order.Id;
+                order.TakenLocationId = order.DeliveryLocationId;
+                order.TakenLocationId = order.TakenLocationId;
+                order.UpdatedAt = TimeHelper.GetCurrentServerTime();
 
-                if(updateDto.Image is not null)
+                if (updateDto.Image is not null)
                 {
                     await _imageService.DeleteImageAsync(order.ImagePath!);
-                    updateOrder.ImagePath = await _imageService.SaveImageAsync(updateDto.Image);
+                    order.ImagePath = await _imageService.SaveImageAsync(updateDto.Image);
                 }
-                updateOrder.Id = id;
 
-                _unitOfWork.Orders.Update(id, updateOrder);
+                var resTaken = await _locationService.UpdateAsync(order.TakenLocationId, updateDto.CurrentlyLocation);
+                if (resTaken == false)
+                    throw new StatusCodeException(HttpStatusCode.BadRequest, "Currently location not updated");
+
+                var resDelivery = await _locationService.UpdateAsync(order.DeliveryLocationId, updateDto.TransferLocation);
+                if (resDelivery == false)
+                    throw new StatusCodeException(HttpStatusCode.BadRequest, "Transfer location not updated");
+
+                _unitOfWork.Orders.Update(id, order);
                 var result = await _unitOfWork.SaveChangesAsync();
                 return result > 0;
             }
