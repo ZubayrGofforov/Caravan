@@ -19,5 +19,6 @@ namespace Caravan.Service.Interfaces
         public Task<bool> DeleteAsync(long id);
         public Task<bool> CreateAsync(OrderCreateDto createDto);
         public Task<bool> UpdateStatusAsync(long id, OrderStatusDto dto);
+        public Task<IEnumerable<OrderViewModel>> GetAllByIdAsync(long id, PaginationParams @paginationParams);
     }
 }

@@ -84,6 +84,13 @@ namespace Caravan.Service.Services
             return data;
         }
 
+        public async Task<IEnumerable<OrderViewModel>> GetAllByIdAsync(long id, PaginationParams paginationParams)
+        {
+            var query = _unitOfWork.Orders.Where(x => x.UserId == id)
+                .ToList().ConvertAll(x => _mapper.Map<OrderViewModel>(x));
+            var data = await _paginator.ToPagedAsync(query, paginationParams.PageNumber, paginationParams.PageSize);
+            return data;
+        }
 
         public async Task<OrderViewModel> GetAsync(long id)
         {
