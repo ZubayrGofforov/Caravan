@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,6 +28,11 @@ namespace Caravan.DataAccess.Repositories
         public override IQueryable<Truck> GetAll()
         {
             var query = _dbContext.Trucks.Include(x => x.User).Include(x => x.TruckLocation).OrderByDescending(x => x.CreatedAt); 
+            return query;
+        }
+        public override IQueryable<Truck> Where(Expression<Func<Truck, bool>> expression)
+        {
+            var query = _dbContext.Trucks.Include(x =>x.User).Include(x => x.TruckLocation).OrderByDescending(_ => _.CreatedAt);
             return query;
         }
 

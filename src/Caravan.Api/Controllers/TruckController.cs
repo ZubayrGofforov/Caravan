@@ -1,9 +1,11 @@
 ﻿using Caravan.Service.Common.Utils;
+using Caravan.Service.Dtos.Locations;
 using Caravan.Service.Dtos.Trucks;
 using Caravan.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data;
 
 namespace Caravan.Api.Controllers
@@ -42,5 +44,11 @@ namespace Caravan.Api.Controllers
         [HttpPut("{id}"), Authorize(Roles = "User")]
         public async Task<IActionResult> UpdateAsync(long id, [FromForm] TruckUpdateDto truckUpdateDto)
             => Ok(await _service.UpdateAsync(id, truckUpdateDto));
+        [HttpPatch, Authorize(Roles ="User")]
+        public async Task<IActionResult> UpdateLocationAsync(long id, LocationCreateDto dto)
+            => Ok(await _service.UpdateLocationAsync(id, dto));
+        [HttpGet("{id},{page}")]
+        public async Task<IActionResult> GetAllByIdAsync(long id, int page)
+            => Ok(await _service.GetAllByIdAsync(id, new PaginationParams(page, pageSize)));
     }
 }

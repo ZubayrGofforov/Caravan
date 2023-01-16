@@ -7,6 +7,7 @@ using Caravan.Service.Common.Attributes;
 using Caravan.Service.Common.Exceptions;
 using Caravan.Service.Common.Helpers;
 using Caravan.Service.Common.Utils;
+using Caravan.Service.Dtos.Locations;
 using Caravan.Service.Dtos.Trucks;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
@@ -79,6 +80,15 @@ namespace Caravan.Service.Services
             return data;
         }
 
+        public async Task<IEnumerable<TruckViewModel>> GetAllByIdAsync(long id,PaginationParams paginationParams)
+        {
+            if (id != HttpContextHelper.UserId)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
+            var trucks = _unitOfWork.Trucks.Where(x => x.UserId == id).ToList().ConvertAll(x => _mapper.Map<TruckViewModel>(x));
+            var data = await _paginator.ToPagedAsync(trucks, paginationParams.PageNumber, paginationParams.PageSize);
+            return data;
+        }
+
         public async Task<TruckViewModel> GetAsync(long id)
         {
             var truck = await _unitOfWork.Trucks.FindByIdAsync(id);
@@ -101,10 +111,8 @@ namespace Caravan.Service.Services
                 var res = await _unitOfWork.SaveChangesAsync();
                 return res > 0;
             }
-            throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
         }
-
-    
         public async Task<bool> UpdateAsync(long id, TruckUpdateDto updateDto)
         {
             var truck = await _unitOfWork.Trucks.FindByIdAsync(id);
@@ -114,6 +122,7 @@ namespace Caravan.Service.Services
             {
                 _unitOfWork.Trucks.TrackingDeteched(truck);
                 truck.Name= updateDto.Name;
+
                 truck.TruckNumber = updateDto.TruckNumber;
                 truck.UserId = HttpContextHelper.UserId;
                 truck.Description= updateDto.Description;
@@ -130,6 +139,17 @@ namespace Caravan.Service.Services
             }
             else throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
             
+        }
+
+        public async Task<bool> UpdateLocationAsync(long id, LocationCreateDto dto)
+        {
+            var truck = await _unitOfWork.Trucks.FindByIdAsync(id);
+            if (truck.UserId == HttpContextHelper.UserId || HttpContextHelper.UserRole != "User")
+            {
+                bool res =await _locationService.UpdateAsync(truck.LocationId, dto);
+                return res;
+            }
+            else throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
         }
     }
 }
