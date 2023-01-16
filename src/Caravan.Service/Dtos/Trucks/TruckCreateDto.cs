@@ -25,5 +25,7 @@ namespace Caravan.Service.Dtos.Trucks
 
         [Required]
         public LocationCreateDto TruckLocation { get; set; } = default!;
+
+        public string? LocationName { get; set; }
     }
 }

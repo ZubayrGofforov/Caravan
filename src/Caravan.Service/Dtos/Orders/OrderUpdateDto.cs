@@ -25,6 +25,9 @@ namespace Caravan.Service.Dtos.Orders
 
         public double? Size { get; set; }
 
+        public string? LocationName { get; set; }
+
+
         [Required]
         public LocationCreateDto CurrentlyLocation { get; set; } = default!;
 

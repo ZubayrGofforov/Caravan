@@ -19,6 +19,8 @@ namespace Caravan.Service.Dtos.Trucks
         [Required]
         public double? MaxLoad { get; set; }
 
+        public string? LocationName { get; set; }
+
         public string? Description { get; set; }
 
         [Required]
