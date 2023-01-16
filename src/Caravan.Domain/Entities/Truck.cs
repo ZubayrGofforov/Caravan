@@ -24,6 +24,8 @@ namespace Caravan.Domain.Entities
         public long UserId { get; set; }
         public virtual User User { get; set; } = default!;
 
+        public string LocationName { get; set; } = string.Empty;
+
         public long LocationId { get; set; }
         public virtual Location TruckLocation { get; set; } = default!;
     }
