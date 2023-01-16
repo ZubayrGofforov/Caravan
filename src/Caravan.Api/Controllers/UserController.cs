@@ -24,6 +24,10 @@ namespace Caravan.Api.Controllers
             this._paginatorService = paginatorService;
         }
 
+        [HttpGet("email"), AllowAnonymous]
+        public async Task<IActionResult> GetEmailAsync(string email)
+            => Ok(await service.GetEmailAsync(email));
+
         [HttpGet,Authorize(Roles ="User")]
         public async Task<IActionResult> GetAllAsync(int page)
             => Ok(await service.GetAllAysnc(new PaginationParams(page, _pageSize)));

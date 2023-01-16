@@ -17,5 +17,7 @@ namespace Caravan.Service.Interfaces
         public Task<UserViewModel> GetAsync(long id);
         public Task<bool> UpdateAsync(long id, UserUpdateDto entity);
         public Task<bool> DeleteAsync(long id);
+
+        public Task<UserViewModel> GetEmailAsync(string email);
     }
 }

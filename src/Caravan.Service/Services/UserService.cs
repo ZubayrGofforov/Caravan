@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +36,7 @@ namespace Caravan.Service.Services
             this.appDbContext = appDbContext;
         }
        
+
         public async Task<bool> DeleteAsync(long id)
         {
             var temp = await unitOfWork.Users.FindByIdAsync(id);
@@ -63,6 +65,15 @@ namespace Caravan.Service.Services
                  return mapper.Map<UserViewModel>(temp);
             else throw new StatusCodeException(System.Net.HttpStatusCode.NotFound, "User not found");
 
+        }
+
+        public async Task<UserViewModel> GetEmailAsync(string email)
+        {
+            var user = await unitOfWork.Users.GetByEmailAsync(email.Trim());
+            if (user is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "User not found");
+            var userView = mapper.Map<UserViewModel>(user);
+            return userView;
         }
 
         public async Task<bool> UpdateAsync(long id, UserUpdateDto entity)
