@@ -35,7 +35,7 @@ namespace Caravan.Api.Controllers
         public async Task<IActionResult> DeleteAsync(long id)
             => Ok(await _service.DeleteAsync(id));
 
-        [HttpPut("{id}"), Authorize(Roles = "User")]
+        [HttpPatch("{id}"), Authorize(Roles = "User")]
         public async Task<IActionResult> UpdateStatusAsync(long id,TruckStatusDto status)
             => Ok(await _service.TruckStatusUpdateAsync(id, status));
 
