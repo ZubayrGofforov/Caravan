@@ -84,8 +84,10 @@ namespace Caravan.Service.Services
         {
             if (id != HttpContextHelper.UserId)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
-            var trucks = _unitOfWork.Trucks.Where(x => x.UserId == id).ToList().ConvertAll(x => _mapper.Map<TruckViewModel>(x));
-            var data = await _paginator.ToPagedAsync(trucks, paginationParams.PageNumber, paginationParams.PageSize);
+            var trucks = _unitOfWork.Trucks.Where(x => x.UserId == HttpContextHelper.UserId).ToList();
+            var res = trucks.Where(x => x.UserId == HttpContextHelper.UserId).ToList().ConvertAll(x => _mapper.Map<TruckViewModel>(x));
+                
+            var data = await _paginator.ToPagedAsync(res, paginationParams.PageNumber, paginationParams.PageSize);
             return data;
         }
 
