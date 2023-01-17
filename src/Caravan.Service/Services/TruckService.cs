@@ -147,6 +147,7 @@ namespace Caravan.Service.Services
                     truck.ImagePath = await _imageService.SaveImageAsync(updateDto.Image);
                 }
 
+                truck.LocationName = string.IsNullOrWhiteSpace(updateDto.LocationName) ? truck.LocationName : updateDto.LocationName; ;
                 _unitOfWork.Trucks.Update(id, truck);
                 var result = await _unitOfWork.SaveChangesAsync();
                 return result > 0;

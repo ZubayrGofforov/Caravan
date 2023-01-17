@@ -19,6 +19,8 @@ namespace Caravan.Service.Dtos.Orders
 
         public double? Price { get; set; }
 
+        [MaxFileSize(2)]
+        [AllowedFiles(new string[] { ".jpg", ".png", ".jpeg", ".svg", ".webp" })]
         public IFormFile? Image { get; set; }
 
         [Required]
