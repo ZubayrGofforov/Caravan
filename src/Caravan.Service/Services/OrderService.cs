@@ -153,7 +153,8 @@ namespace Caravan.Service.Services
                 var resDelivery = await _locationService.UpdateAsync(order.DeliveryLocationId, updateDto.TransferLocation);
                 if (resDelivery == false)
                     throw new StatusCodeException(HttpStatusCode.BadRequest, "Transfer location not updated");
-
+                
+                order.LocationName = string.IsNullOrWhiteSpace(updateDto.LocationName) ? order.LocationName : updateDto.LocationName; ;
                 _unitOfWork.Orders.Update(id, order);
                 var result = await _unitOfWork.SaveChangesAsync();
                 return result > 0;

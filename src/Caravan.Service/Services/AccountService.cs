@@ -85,6 +85,10 @@ namespace Caravan.Service.Services
             if (emailcheck is not null)
                 throw new StatusCodeException(HttpStatusCode.Conflict, "Email alredy exist");
 
+            var phoneNumberCheck = await _repository.Users.FirstOrDefaultAsync(x => x.PhoneNumber == registerDto.PhoneNumber);
+            if (emailcheck is not null)
+                throw new StatusCodeException(HttpStatusCode.Conflict, "Phone number alredy exist");
+
             var hasherResult = PasswordHasher.Hash(registerDto.Password);
             var user = (User)registerDto;
             user.PasswordHash = hasherResult.passwordHash;

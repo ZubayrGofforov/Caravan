@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Common\Validations\**" />
+    <EmbeddedResource Remove="Common\Validations\**" />
+    <None Remove="Common\Validations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="MailKit" Version="3.4.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.12">
@@ -29,7 +35,6 @@
 
   <ItemGroup>
     <Folder Include="Common\Exceptions\" />
-    <Folder Include="Common\Validations\" />
   </ItemGroup>
 
 </Project>
