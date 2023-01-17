@@ -131,10 +131,11 @@ namespace Caravan.Service.Services
             {
                 _unitOfWork.Orders.TrackingDeteched(order);
 
+                order.Id = order.Id;
                 order.Name = updateDto.Name;
                 order.Size = updateDto.Size;
                 order.Weight = updateDto.Weight;
-                order.Id = order.Id;
+                order.Price = updateDto.Price;
                 order.TakenLocationId = order.DeliveryLocationId;
                 order.TakenLocationId = order.TakenLocationId;
                 order.UpdatedAt = TimeHelper.GetCurrentServerTime();
