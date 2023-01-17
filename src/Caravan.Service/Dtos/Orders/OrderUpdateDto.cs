@@ -17,6 +17,8 @@ namespace Caravan.Service.Dtos.Orders
         [MaxLength(50), MinLength(3)]
         public string Name { get; set; } = string.Empty;
 
+        public double? Price { get; set; }
+
         public IFormFile? Image { get; set; }
 
         [Required]
@@ -26,7 +28,6 @@ namespace Caravan.Service.Dtos.Orders
         public double? Size { get; set; }
 
         public string? LocationName { get; set; }
-
 
         [Required]
         public LocationCreateDto CurrentlyLocation { get; set; } = default!;
