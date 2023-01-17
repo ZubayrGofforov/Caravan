@@ -28,12 +28,12 @@ namespace Caravan.Api.Controllers
             => Ok(new {Token = await _accountService.LoginAsync(loginDto)});
   
         
-        [HttpPost("reset-password"), AllowAnonymous]
+        [HttpPost("reset-password"), Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> ForgetPasswordAsync([FromForm]UserResetPasswordDto userResetPassword)
             => Ok(await _accountService.VerifyPasswordAsync(userResetPassword));
 
         
-        [HttpPost("sendcode"), AllowAnonymous]
+        [HttpPost("sendcode"), Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> SendToEmailAsync([FromForm] SendToEmailDto sendToEmail)
         {
             await _accountService.SendCodeAsync(sendToEmail);
@@ -41,7 +41,7 @@ namespace Caravan.Api.Controllers
         }
         
         
-        [HttpPatch("updatePassword")]
+        [HttpPatch("updatePassword"), Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> UpdatePasswordAsync([FromForm] PasswordUpdateDto updatePasswordDto)
             => Ok(await _accountService.PasswordUpdateAsync(updatePasswordDto));
     }
