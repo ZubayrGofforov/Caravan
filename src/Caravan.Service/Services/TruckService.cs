@@ -99,12 +99,16 @@ namespace Caravan.Service.Services
 
         public async Task<IEnumerable<TruckViewModel>> GetLocationNameAsync(string locationName, PaginationParams @paginationParams)
         {
-            var trucks = _unitOfWork.Trucks.Where(x => x.LocationName == locationName)
-                .ToList().ConvertAll(x => _mapper.Map<TruckViewModel>(x));
-            if (trucks is null)
+            var trucks = await Task.Run(() => _unitOfWork.Trucks.Where(x => x.LocationName.ToLower() == locationName.ToLower()).ToListAsync());
+            var result = await Task.Run(() => trucks.Where(x => x.LocationName.ToLower() == locationName.ToLower())
+                                                    .ToList().ConvertAll(x => _mapper.Map<TruckViewModel>(x)));
+            if (result is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Truck not found");
-            var data = await _paginator.ToPagedAsync(trucks, paginationParams.PageNumber, paginationParams.PageSize);
-            return data;
+            else
+            {
+                var data = await _paginator.ToPagedAsync(result, paginationParams.PageNumber, paginationParams.PageSize);
+                return data;
+            }
         }
 
         public async Task<bool> TruckStatusUpdateAsync(long id, TruckStatusDto dto)

@@ -22,8 +22,8 @@ namespace Caravan.Api.Controllers
         }
 
         [HttpGet("locationName"), AllowAnonymous]
-        public async Task<IActionResult> GetLocationNameAsync(string locationName)
-            => Ok(await _service.GetLocationNameAsync(locationName));
+        public async Task<IActionResult> GetLocationNameAsync(string locationName, [FromQuery] int page)
+            => Ok(await _service.GetLocationNameAsync(locationName, new PaginationParams(page, pageSize)));
 
 
         [HttpGet, AllowAnonymous]

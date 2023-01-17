@@ -110,12 +110,16 @@ namespace Caravan.Service.Services
 
         public async Task<IEnumerable<OrderViewModel>> GetLocationNameAsync(string locationName, PaginationParams @paginationParams)
         {
-            var orders = _unitOfWork.Orders.Where(x => x.LocationName == locationName).AsNoTracking()
-                .ToList().ConvertAll(x => _mapper.Map<OrderViewModel>(x));
-            if (orders is null)
+            var orders = await Task.Run(() => _unitOfWork.Orders.Where(x => x.LocationName.ToLower() == locationName.ToLower()).ToListAsync());
+            var result = await Task.Run(() => orders.Where(x => x.LocationName.ToLower() == locationName.ToLower())
+                                                    .ToList().ConvertAll(x => _mapper.Map<OrderViewModel>(x)));
+            if (result is null)
                 throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
-            var data = await _paginator.ToPagedAsync(orders, paginationParams.PageNumber, paginationParams.PageSize);
-            return data;
+            else
+            {
+                var data = await _paginator.ToPagedAsync(result, paginationParams.PageNumber, paginationParams.PageSize);
+                return data;
+            }
         }
 
         public async Task<bool> UpdateAsync(long id, OrderUpdateDto updateDto)

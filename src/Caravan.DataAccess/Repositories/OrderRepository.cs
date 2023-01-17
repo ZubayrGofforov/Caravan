@@ -18,6 +18,7 @@ namespace Caravan.DataAccess.Repositories
         public OrderRepository(AppDbContext appDbContext) : base(appDbContext)
         {
         }
+
         public override async Task<Order?> FindByIdAsync(long id)
         {
             var res = await _dbContext.Orders.Include(x => x.User).Include(x => x.TakenLocation)
@@ -26,15 +27,10 @@ namespace Caravan.DataAccess.Repositories
                 return null;
             return res;
         }
+
         public override IQueryable<Order> GetAll()
         {
             var query = _dbContext.Orders.Include(x => x.User).Include(x => x.TakenLocation).Include(x => x.DeliveryLocation);
-            return query;
-        }
-
-        public Task<Order?> GetByLocationNameAsync(string locationName)
-        {
-            var query = _dbContext.Orders.FirstOrDefaultAsync(x => x.LocationName.ToLower() == locationName.ToLower());
             return query;
         }
 

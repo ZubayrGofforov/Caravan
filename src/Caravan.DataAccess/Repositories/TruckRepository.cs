@@ -31,12 +31,6 @@ namespace Caravan.DataAccess.Repositories
             return query;
         }
 
-        public async Task<Truck?> GetByLocationNameAsync(string locationName)
-        {
-            var query = await _dbContext.Trucks.FirstOrDefaultAsync(x => x.LocationName.ToLower() == locationName.ToLower());
-            return query;
-        }
-
         public override IQueryable<Truck> Where(Expression<Func<Truck, bool>> expression)
         {
             var query = _dbContext.Trucks.Include(x =>x.User).Include(x => x.TruckLocation).OrderByDescending(_ => _.CreatedAt);
