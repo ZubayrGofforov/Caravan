@@ -28,17 +28,21 @@ namespace Caravan.Api.Controllers
         public async Task<IActionResult> GetEmailAsync(string email)
             => Ok(await service.GetEmailAsync(email));
 
+
         [HttpGet,Authorize(Roles ="User")]
         public async Task<IActionResult> GetAllAsync(int page)
             => Ok(await service.GetAllAysnc(new PaginationParams(page, _pageSize)));
+
 
         [HttpGet ("{id}"), AllowAnonymous ]
         public async Task<IActionResult> GetAsync(long id)
             => Ok(await service.GetAsync(id));
         
+        
         [HttpDelete("{id}"), Authorize(Roles = "User")]
         public async Task<IActionResult> DeleteAsync(long id)
             => Ok(await service.DeleteAsync(id));
+        
         
         [HttpPut, Authorize(Roles ="User")]
         public async Task<IActionResult> UpdateAsync(long id,[FromBody] UserUpdateDto dto)

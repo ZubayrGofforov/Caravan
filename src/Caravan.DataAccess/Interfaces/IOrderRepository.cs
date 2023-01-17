@@ -9,6 +9,6 @@ using System.Threading.Tasks;
 namespace Caravan.DataAccess.Interfaces
 {
     public interface IOrderRepository : IGenericRepository<Order>
-    {
+    { 
     }
 }

@@ -10,6 +10,7 @@ using Caravan.Service.Common.Utils;
 using Caravan.Service.Dtos.Orders;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
+using Caravan.Service.Services.Common;
 using Caravan.Service.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -105,6 +106,20 @@ namespace Caravan.Service.Services
             }
 
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
+        }
+
+        public async Task<IEnumerable<OrderViewModel>> GetLocationNameAsync(string locationName, PaginationParams @paginationParams)
+        {
+            var orders = await Task.Run(() => _unitOfWork.Orders.Where(x => x.LocationName.ToLower() == locationName.ToLower()).ToListAsync());
+            var result = await Task.Run(() => orders.Where(x => x.LocationName.ToLower() == locationName.ToLower())
+                                                    .ToList().ConvertAll(x => _mapper.Map<OrderViewModel>(x)));
+            if (result is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
+            else
+            {
+                var data = await _paginator.ToPagedAsync(result, paginationParams.PageNumber, paginationParams.PageSize);
+                return data;
+            }
         }
 
         public async Task<bool> UpdateAsync(long id, OrderUpdateDto updateDto)

@@ -30,6 +30,7 @@ namespace Caravan.DataAccess.Repositories
             var query = _dbContext.Trucks.Include(x => x.User).Include(x => x.TruckLocation).OrderByDescending(x => x.CreatedAt); 
             return query;
         }
+
         public override IQueryable<Truck> Where(Expression<Func<Truck, bool>> expression)
         {
             var query = _dbContext.Trucks.Include(x =>x.User).Include(x => x.TruckLocation).OrderByDescending(_ => _.CreatedAt);
