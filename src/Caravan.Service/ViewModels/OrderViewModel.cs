@@ -21,6 +21,8 @@ namespace Caravan.Service.ViewModels
 
         public bool IsTaken { get; set; } = false;
 
+        public double? Price { get; set; }
+
         public UserViewModel User { get; set; } = default!;
 
         public LocationViewModel TakenLocation { get; set; } = default!;

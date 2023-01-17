@@ -1,5 +1,6 @@
 ﻿using Caravan.Domain.Entities;
 using Caravan.Service.Common.Attributes;
+using Caravan.Service.Common.Utils;
 using Caravan.Service.Dtos.Locations;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -17,6 +18,8 @@ namespace Caravan.Service.Dtos.Orders
         [MaxLength(50), MinLength(3)]
         public string Name { get; set; } = string.Empty;
 
+        public double? Price { get; set; }
+        
         public IFormFile? Image { get; set; }
 
         [Required]
