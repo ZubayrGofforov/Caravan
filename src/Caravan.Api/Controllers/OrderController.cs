@@ -23,26 +23,37 @@ namespace Caravan.Api.Controllers
         public async Task<IActionResult> GetAllAsync(int page)
             => Ok(await _service.GetAllAsync(new PaginationParams(page, _pageSize)));
 
+
+        [HttpGet("locationName"), AllowAnonymous]
+        public async Task<IActionResult> GetLocationNameAsync(string locationName, [FromQuery] int page)
+            => Ok(await _service.GetLocationNameAsync(locationName, new PaginationParams(page, _pageSize)));
+
+        
+        [HttpGet("{orderId}"), AllowAnonymous]
+        public async Task<IActionResult> GetByIdAsync(long orderId)
+            => Ok(await _service.GetAsync(orderId));
+
+        
         [HttpPost, Authorize(Roles = "User")]
         public async Task<IActionResult> CreateAsync([FromForm] OrderCreateDto dto)
             => Ok(await _service.CreateAsync(dto));
 
-        [HttpGet("{orderId}"), Authorize(Roles = "User")]
-        public async Task<IActionResult> GetByIdAsync(long orderId)
-            => Ok(await _service.GetAsync(orderId));
-
+        
         [HttpDelete("{orderId}"), Authorize(Roles = "User")]
         public async Task<IActionResult> DeleteAsync(long orderId)
             => Ok( await _service.DeleteAsync(orderId));
 
+        
         [HttpPut("{orderId}"), Authorize(Roles = "User")]
         public async Task<IActionResult> UpdateAsync(long orderId, [FromForm] OrderUpdateDto dto)
             => Ok(await _service.UpdateAsync(orderId,dto));
 
+        
         [HttpPatch("{orderId}/updateStatus"), Authorize(Roles = "User")]
         public async Task<IActionResult> UpdateStatusAsync(long orderId, [FromForm] OrderStatusDto dto)
             => Ok(await _service.UpdateStatusAsync(orderId, dto));
 
+        
         [HttpGet("allbyid/{userId}")]
         public async Task<IActionResult> GetAllByIdAsync(long userId, [FromQuery] int page)
             => Ok(await _service.GetAllByIdAsync(userId, new PaginationParams(page, _pageSize)));

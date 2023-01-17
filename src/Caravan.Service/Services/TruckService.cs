@@ -80,7 +80,7 @@ namespace Caravan.Service.Services
             return data;
         }
 
-        public async Task<IEnumerable<TruckViewModel>> GetAllByIdAsync(long id,PaginationParams paginationParams)
+        public async Task<IEnumerable<TruckViewModel>> GetAllByIdAsync(long id, PaginationParams @paginationParams)
         {
             if (id != HttpContextHelper.UserId)
                 throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
@@ -95,6 +95,16 @@ namespace Caravan.Service.Services
             if (truck is not null)
                 return _mapper.Map<TruckViewModel>(truck);
             else throw new StatusCodeException(HttpStatusCode.NotFound, "Track not found");
+        }
+
+        public async Task<IEnumerable<TruckViewModel>> GetLocationNameAsync(string locationName, PaginationParams @paginationParams)
+        {
+            var trucks = _unitOfWork.Trucks.Where(x => x.LocationName == locationName)
+                .ToList().ConvertAll(x => _mapper.Map<TruckViewModel>(x));
+            if (trucks is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Truck not found");
+            var data = await _paginator.ToPagedAsync(trucks, paginationParams.PageNumber, paginationParams.PageSize);
+            return data;
         }
 
         public async Task<bool> TruckStatusUpdateAsync(long id, TruckStatusDto dto)

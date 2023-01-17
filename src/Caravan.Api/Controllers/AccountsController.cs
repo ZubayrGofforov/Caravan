@@ -19,18 +19,20 @@ namespace Caravan.Api.Controllers
         }
 
         [HttpPost("register"), AllowAnonymous]
-
         public async Task<IActionResult> RegisterAsync([FromForm] AccountRegisterDto registerDto)
             => Ok(await _accountService.RegisterAsync(registerDto));
 
+        
         [HttpPost("login"), AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto loginDto)
             => Ok(new {Token = await _accountService.LoginAsync(loginDto)});
   
+        
         [HttpPost("reset-password")]
         public async Task<IActionResult> ForgetPasswordAsync([FromForm]UserResetPasswordDto userResetPassword)
             => Ok(await _accountService.VerifyPasswordAsync(userResetPassword));
 
+        
         [HttpPost("sendcode")]
         public async Task<IActionResult> SendToEmailAsync([FromForm] SendToEmailDto sendToEmail)
         {
@@ -38,9 +40,9 @@ namespace Caravan.Api.Controllers
             return Ok();
         }
         
+        
         [HttpPatch("updatePassword")]
         public async Task<IActionResult> UpdatePasswordAsync([FromForm] PasswordUpdateDto updatePasswordDto)
             => Ok(await _accountService.PasswordUpdateAsync(updatePasswordDto));
-            
     }
 }

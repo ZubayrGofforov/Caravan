@@ -10,5 +10,6 @@ namespace Caravan.DataAccess.Interfaces
 {
     public interface ITruckRepository : IGenericRepository<Truck>
     {
+        public Task<Truck?> GetByLocationNameAsync(string locationName);
     }
 }

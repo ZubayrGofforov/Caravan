@@ -31,6 +31,13 @@ namespace Caravan.DataAccess.Repositories
             var query = _dbContext.Orders.Include(x => x.User).Include(x => x.TakenLocation).Include(x => x.DeliveryLocation);
             return query;
         }
+
+        public Task<Order?> GetByLocationNameAsync(string locationName)
+        {
+            var query = _dbContext.Orders.FirstOrDefaultAsync(x => x.LocationName.ToLower() == locationName.ToLower());
+            return query;
+        }
+
         public override IQueryable<Order> Where(Expression<Func<Order, bool>> expression)
         {
             var query = _dbContext.Orders.Include(x => x.User).Include(x => x.TakenLocation).Include(x => x.DeliveryLocation);
