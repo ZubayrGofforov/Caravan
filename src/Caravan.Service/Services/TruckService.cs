@@ -83,10 +83,18 @@ namespace Caravan.Service.Services
         public async Task<IEnumerable<TruckViewModel>> GetAllByIdAsync(long id, PaginationParams @paginationParams)
         {
             if (id != HttpContextHelper.UserId)
-                throw new StatusCodeException(HttpStatusCode.BadRequest, "Not allowed");
-            var trucks = _unitOfWork.Trucks.Where(x => x.UserId == id).ToList().ConvertAll(x => _mapper.Map<TruckViewModel>(x));
-            var data = await _paginator.ToPagedAsync(trucks, paginationParams.PageNumber, paginationParams.PageSize);
-            return data;
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "You are not allowed to view this id information, your information");
+            var trucks = await Task.Run(() => _unitOfWork.Trucks.Where(x => x.UserId == HttpContextHelper.UserId).ToListAsync());
+            var result = await Task.Run(() => trucks.Where(x => x.Id == HttpContextHelper.UserId)
+                                                    .ToList().ConvertAll(x => _mapper.Map<TruckViewModel>(x)));
+            
+            if (result is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Truck not found");
+            else
+            {
+                var data = await _paginator.ToPagedAsync(result, paginationParams.PageNumber, paginationParams.PageSize);
+                return data;
+            }
         }
 
         public async Task<TruckViewModel> GetAsync(long id)

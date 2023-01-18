@@ -87,10 +87,19 @@ namespace Caravan.Service.Services
 
         public async Task<IEnumerable<OrderViewModel>> GetAllByIdAsync(long id, PaginationParams paginationParams)
         {
-            var query = _unitOfWork.Orders.Where(x => x.UserId == id)
-                .ToList().ConvertAll(x => _mapper.Map<OrderViewModel>(x));
-            var data = await _paginator.ToPagedAsync(query, paginationParams.PageNumber, paginationParams.PageSize);
-            return data;
+            if (id != HttpContextHelper.UserId)
+                throw new StatusCodeException(HttpStatusCode.BadRequest, "You are not allowed to view this id information, your information");
+            var orders = await Task.Run(() => _unitOfWork.Orders.Where(x => x.UserId == HttpContextHelper.UserId).ToListAsync());
+            var result = await Task.Run(() => orders.Where(x => x.Id == HttpContextHelper.UserId)
+                                                    .ToList().ConvertAll(x => _mapper.Map<OrderViewModel>(x)));
+
+            if (result is null)
+                throw new StatusCodeException(HttpStatusCode.NotFound, "Order not found");
+            else
+            {
+                var data = await _paginator.ToPagedAsync(result, paginationParams.PageNumber, paginationParams.PageSize);
+                return data;
+            }
         }
 
         public async Task<OrderViewModel> GetAsync(long id)
