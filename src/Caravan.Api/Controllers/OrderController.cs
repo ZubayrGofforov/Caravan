@@ -46,7 +46,7 @@ namespace Caravan.Api.Controllers
         
         [HttpPut("{orderId}"), Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> UpdateAsync(long orderId, [FromForm] OrderUpdateDto dto)
-            => Ok(await _service.UpdateAsync(orderId,dto));
+            => Ok(await _service.UpdateAsync(orderId, dto));
 
         
         [HttpPatch("{orderId}/updateStatus"), Authorize(Roles = "User, Admin")]
