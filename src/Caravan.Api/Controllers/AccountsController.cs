@@ -26,14 +26,14 @@ namespace Caravan.Api.Controllers
         [HttpPost("login"), AllowAnonymous]
         public async Task<IActionResult> LoginAsync([FromForm] AccountLoginDto loginDto)
             => Ok(new {Token = await _accountService.LoginAsync(loginDto)});
-  
+        
         
         [HttpPost("reset-password"), Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> ForgetPasswordAsync([FromForm]UserResetPasswordDto userResetPassword)
             => Ok(await _accountService.VerifyPasswordAsync(userResetPassword));
 
         
-        [HttpPost("sendcode"), Authorize(Roles = "Admin, User")]
+        [HttpPost("sendcode"), AllowAnonymous]
         public async Task<IActionResult> SendToEmailAsync([FromForm] SendToEmailDto sendToEmail)
         {
             await _accountService.SendCodeAsync(sendToEmail);

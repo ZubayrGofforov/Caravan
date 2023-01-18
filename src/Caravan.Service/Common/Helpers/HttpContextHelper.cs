@@ -26,6 +26,4 @@ public class HttpContextHelper
         bool canParse = long.TryParse(HttpContext.User?.Claims.FirstOrDefault(p => p.Type == "Id")?.Value, out id);
         return canParse ? id : 0;
     }
-
-    
 }
