@@ -1,10 +1,8 @@
-﻿using Caravan.Service.Common.Helpers;
-using Caravan.Service.Common.Utils;
+﻿using Caravan.Service.Common.Utils;
 using Caravan.Service.Dtos.Users;
 using Caravan.Service.Interfaces;
 using Caravan.Service.Interfaces.Common;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Caravan.Api.Controllers
@@ -29,23 +27,23 @@ namespace Caravan.Api.Controllers
             => Ok(await service.GetEmailAsync(email));
 
 
-        [HttpGet,Authorize(Roles ="Admin")]
+        [HttpGet, Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllAsync(int page)
             => Ok(await service.GetAllAysnc(new PaginationParams(page, _pageSize)));
 
 
-        [HttpGet ("{id}"), Authorize(Roles = "Admin, User")]
+        [HttpGet("{id}"), Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> GetAsync(long id)
             => Ok(await service.GetAsync(id));
-        
-        
+
+
         [HttpDelete("{id}"), Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> DeleteAsync(long id)
             => Ok(await service.DeleteAsync(id));
-        
-        
-        [HttpPut, Authorize(Roles ="User, Admin")]
-        public async Task<IActionResult> UpdateAsync(long id,[FromBody] UserUpdateDto dto)
-            => Ok(await service.UpdateAsync( id,dto));
+
+
+        [HttpPut, Authorize(Roles = "User, Admin")]
+        public async Task<IActionResult> UpdateAsync(long id, [FromBody] UserUpdateDto dto)
+            => Ok(await service.UpdateAsync(id, dto));
     }
 }

@@ -22,7 +22,7 @@ namespace Caravan.Api.Middlewares
             {
                 await HandleErrorAsync(httpContext, exception);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 await HandleErrorAsync(httpContext, exception);
             }

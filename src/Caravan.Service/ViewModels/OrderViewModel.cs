@@ -1,12 +1,4 @@
-﻿using Caravan.Domain.Common;
-using Caravan.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Caravan.Service.ViewModels
+﻿namespace Caravan.Service.ViewModels
 {
     public class OrderViewModel
     {
